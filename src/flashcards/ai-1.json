@@ -1,0 +1,370 @@
+[
+  {
+    "definition": "The intelligence of machines and the branch of computer science that aims to create it.",
+    "term": "Artificial intelligence"
+  },
+  {
+    "definition": "Within artificial intelligence, a __________ is one that maximizes its expected utility, given its current knowledge.",
+    "term": "Rational Agent"
+  },
+  {
+    "definition": "This was designed to provide a satisfactory operational definition of intelligence.",
+    "term": "Turing Test"
+  },
+  {
+    "definition": "A field of computer science and linguistics concerned with the interactions between computers and human languages.",
+    "term": "Natural Language Processing"
+  },
+  {
+    "definition": "An autonomous entity which observes through sensors and acts upon an environment using actuators and directs its activity towards achieving goals.",
+    "term": "Intelligent Agent"
+  },
+  {
+    "definition": "Translation of information into symbols to facilitate inferencing from those information elements, and the creation of new elements of information.",
+    "term": "Knowledge Representation (KR)"
+  },
+  {
+    "definition": "An area of computer science and mathematical logic dedicated to understand different aspects of thinking.",
+    "term": "Automated Reasoning"
+  },
+  {
+    "definition": "A scientific discipline concerned with the design and development of algorithms that allow computers to evolve behaviors based on empirical data, such as from sensor data or databases.",
+    "term": "Machine Learning"
+  },
+  {
+    "definition": "A field that includes methods for acquiring, processing, analysing, and understanding images and, in general, high-dimensional data from the real world in order to produce numerical or symbolic information.",
+    "term": "Computer Vision"
+  },
+  {
+    "definition": "The branch of technology that deals with the design, construction, operation, structural disposition, manufacture and application of autonomous machines and computer systems for their control, sensory feedback, and information processing",
+    "term": "Robotics"
+  },
+  {
+    "definition": "The interdisciplinary field of cognitive science brings together computer models from AI and experimental techniques from psychology to construct precise and testable theories of the human mind.",
+    "term": "Cognitive Science"
+  },
+  {
+    "definition": "Provides patterns for argument structures that always yielded correct conclusions when given correct premises—for example, \"Socrates is a man; all men are mortal; therefore, Socrates is mortal.\",",
+    "term": "Syllogisms"
+  },
+  {
+    "definition": "The philosophical study of valid reasoning and examines general forms that arguments may take, which forms are valid, and which are fallacies.",
+    "term": "Logic"
+  },
+  {
+    "definition": "One of the schools of thought in the philosophy of mathematics, putting forth the theory that mathematics is an extension of logic and therefore some or all mathematics is reducible to logic.",
+    "term": "Logicism"
+  },
+  {
+    "definition": "These are expected to: operate autonomously, perceive their environment, persist over a prolonged time period, adapt to change, and create and pursue goals.",
+    "term": "Agent"
+  },
+  {
+    "definition": "An agent that acts so as to achieve the best outcome or, when there is uncertainty, the best expected outcome.",
+    "term": "Rational Agent"
+  },
+  {
+    "definition": "The idea that in decision-making, rationality of individuals is only based on the information they have, the cognitive quality of their minds, and the finite amount of time they have to make a decision.",
+    "term": "Bounded Rationality"
+  },
+  {
+    "definition": "Descartes was a strong advocate of the power of reasoning in understanding the world, a philosophy now called _________, and one that counts Aristotle and Leibnitz as members.",
+    "term": "Rationalism"
+  },
+  {
+    "definition": "In addition to rationalism, Descartes was also a proponent of __________. He held that there is a part of the human mind (or soul or spirit) that is outside of nature, exempt from physical laws.",
+    "term": "Dualism"
+  },
+  {
+    "definition": "An alternative to dualism, which holds that the brain's operation according to the laws of physics constitutes the mind.",
+    "term": "Materialism"
+  },
+  {
+    "definition": "Characterized by a dictum of John Locke: \"Nothing is in the understanding, which was not first in the senses.\"",
+    "term": "Empiricism"
+  },
+  {
+    "definition": "The Principle of ________ says: that general rules are acquired by exposure to repeated associations between their elements.",
+    "term": "Induction"
+  },
+  {
+    "definition": "A philosophy that combines empiricism—the idea that observational evidence is indispensable for knowledge—with a version of rationalism incorporating mathematical and logico-linguistic constructs and deductions of epistemology.",
+    "term": "Logical Positivism"
+  },
+  {
+    "definition": "This doctrine holds that all knowledge can be characterized by logical theories connected, ultimately, to ___________ that correspond to sensory inputs.",
+    "term": "Observation Sentences"
+  },
+  {
+    "definition": "Attempted to analyze the acquisition of knowledge from experience.",
+    "term": "Confirmation Theory"
+  },
+  {
+    "definition": "A step-by-step procedure for calculations.",
+    "term": "Algorithm"
+  },
+  {
+    "definition": "Gödel's idea on the inherent limitations of all but the most trivial axiomatic systems capable of doing arithmetic.",
+    "term": "Incompleteness Theorem"
+  },
+  {
+    "definition": "The ability to solve a problem in an effective manner. Closely linked to the existence of an algorithm to solve the problem..",
+    "term": "Computability"
+  },
+  {
+    "definition": "Problems that can be solved in theory (e.g., given infinite time), but which in practice take too long for their solutions to be useful.",
+    "term": "Intractability"
+  },
+  {
+    "definition": "In computational complexity theory, a class of decision problems where any given solution to the decision problem can be _verified_ in polynomial time. But, there is no known efficient way to _locate_ the solutions.",
+    "term": "NP-Complete (NP-C)"
+  },
+  {
+    "definition": "Besides logic and computation, the third great contribution of mathematics to AI is the theory of _________. The Italian Gerolamo Cardano (1501-1576) first framed the idea, describing it in terms of the possible outcomes of gambling events.",
+    "term": "Probability"
+  },
+  {
+    "definition": "The mathematical treatment of \"preferred outcomes\" which was first formalized by Walras and was improved by Ramsey and later by von Neumann in his book The Theory of Games and Economic Behavior (1944).",
+    "term": "Utility"
+  },
+  {
+    "definition": "A combination of probability theory with utility theory which provides a formal and complete framework for decisions (economic or otherwise) made under uncertainty.",
+    "term": "Decision Theory"
+  },
+  {
+    "definition": "A scenario in which the actions of one player can significantly affect the utility of another (either positively or negatively).",
+    "term": "Game"
+  },
+  {
+    "definition": "The study of strategic decision making. Or \"the study of mathematical models of conflict and cooperation between intelligent rational decision-makers.\" Unlike decision theory, it does not offer an unambiguous prescription for selecting actions.",
+    "term": "Game Theory"
+  },
+  {
+    "definition": "Coming from efforts in Britain to optimize radar installations, it is a discipline that deals with the application of analytical methods to help make better decisions. It later found civilian applications in complex management decisions.",
+    "term": "Operations Research"
+  },
+  {
+    "definition": "Provides a mathematical framework for modeling decision-making in situations where outcomes are partly random and partly under the control of a decision maker.",
+    "term": "Markov Decision Processes (MDPs)"
+  },
+  {
+    "definition": "A decision-making strategy that attempts to meet an acceptability threshold. This is contrasted with optimal decision-making, an approach that specifically attempts to find the best option available.",
+    "term": "Satisficing"
+  },
+  {
+    "definition": "The study of the nervous system, particularly the brain.",
+    "term": "Neuroscience"
+  },
+  {
+    "definition": "An electrically excitable cell that processes and transmits information by electrical and chemical signaling",
+    "term": "Neuron"
+  },
+  {
+    "definition": "The hypothetical future emergence of greater-than-human intelligence through technological means. Since the capabilities of such intelligence would be difficult for an unaided human mind to comprehend, the occurrence of a technological singularity is seen as an intellectual event horizon, beyond which events cannot be predicted or understood.",
+    "term": "Technological Singularity"
+  },
+  {
+    "definition": "Rejected any theory involving mental processes on the grounds that introspection could not provide reliable evidence.",
+    "term": "Behaviorism"
+  },
+  {
+    "definition": "A subdiscipline of psychology exploring internal mental processes. It is the study of how people perceive, remember, think, speak, and solve problems.[1]",
+    "term": "Cognitive Psychology"
+  },
+  {
+    "definition": "The interdisciplinary scientific study of the mind and its processes. It examines what cognition is, what it does and how it works.",
+    "term": "Cognitive Science"
+  },
+  {
+    "definition": "An interdisciplinary branch of engineering and mathematics that deals with the behavior of dynamical systems. The external input of a system is called the reference. When one or more output variables of a system need to follow a certain reference over time, a controller manipulates the inputs to a system to obtain the desired effect on the output of the system.",
+    "term": "Control Theory"
+  },
+  {
+    "definition": "Ashby's Design for a Brain (1948, 1952) elaborated on his idea that intelligence could be created by the use of _____________ containing appropriate feedback loops to achieve stable adaptive behavior.",
+    "term": "Homeostatic Devices"
+  },
+  {
+    "definition": "Wiener's book ___________(1948) became a bestseller and awoke the public to the possibility of artificially intelligent machines.",
+    "term": "Cybernetics"
+  },
+  {
+    "definition": "Modern control theory, especially the branch known as stochastic optimal control, has as its goal the design of systems that maximize an ___________over time.",
+    "term": "Objective Function"
+  },
+  {
+    "definition": "An interdisciplinary field dealing with the statistical or rule-based modeling of natural language from a computational perspective.",
+    "term": "Computational Linguistics"
+  },
+  {
+    "definition": "Involves analysis of how to reason accurately and effectively and how best to use a set of symbols to represent a set of facts within a knowledge domain.",
+    "term": "Knowledge Representation (KR)"
+  },
+  {
+    "definition": "The man who demonstrated a simple updating rule for modifying the connection strengths between neurons.",
+    "term": "Hebb"
+  },
+  {
+    "definition": "Takes physical patterns (symbols), combining them into structures (expressions) and manipulating them (using processes) to produce new expressions.",
+    "term": "Physical Symbol System"
+  },
+  {
+    "definition": "A family of computer programming languages with a long history and a distinctive, fully parenthesized Polish prefix notation. Has been the dominant AI programming language for the last 30 years.",
+    "term": "Lisp"
+  },
+  {
+    "definition": "Minsky supervised a series of students who chose limited problems that appeared to require intelligence to solve. These limited domains became known as _________.",
+    "term": "Microworlds"
+  },
+  {
+    "definition": "A single layer neural network. Consists of a weight, a bias and a summation function.",
+    "term": "Adaline (Adaptive Linear Neuron)"
+  },
+  {
+    "definition": "An algorithm for supervised classification of an input into one of two possible outputs. It is a type of linear classifier, i.e. a classification algorithm that makes its predictions based on a linear predictor function combining a set of weights with the feature vector describing a given input.",
+    "term": "Perceptron"
+  },
+  {
+    "definition": "This theorem says that the learning algorithm can adjust the connection strengths of a perceptron to match any input data, provided such a match exists.",
+    "term": "Perceptron Convergence Theorem"
+  },
+  {
+    "definition": "The illusion of unlimited computational power was not confined to problem-solving programs. Early experiments in ____________ (now called genetic algorithms) (Friedberg, 1958; Friedberg et al., 1959) were based on the undoubtedly correct belief that by making an appropriate series of small mutations to a machine-code program, one can generate a program with good performance for any particular task.",
+    "term": "Machine Evolution"
+  },
+  {
+    "definition": "A search heuristic that mimics the process of natural evolution. This heuristic is routinely used to generate useful solutions to optimization and search problems.",
+    "term": "Genetic Algorithms"
+  },
+  {
+    "definition": "Approaches which do not scale up to large or difficult problem instances.",
+    "term": "Weak Methods"
+  },
+  {
+    "definition": "A computer system that emulates the decision-making ability of a human expert and are designed to solve complex problems by reasoning about knowledge, like specialist, and not by following the procedure of a developer as is the case in conventional programming.",
+    "term": "Expert Systems"
+  },
+  {
+    "definition": "MYCIN incorporated a calculus of uncertainty called __________, which seemed (at the time) to fit well with how doctors assessed the impact of evidence on the diagnosis.",
+    "term": "Certainty Factors"
+  },
+  {
+    "definition": "This concept, proposed by Marvin Minsky, \"is an artificial intelligence data structure used to divide knowledge into substructures by representing \"stereotyped situations.\" They are connected together to form a complete idea.",
+    "term": "Frames"
+  },
+  {
+    "definition": "A common method of training artificial neural networks so as to minimize the objective function.",
+    "term": "Back-Propagation"
+  },
+  {
+    "definition": "A set of approaches in the fields of artificial intelligence, cognitive psychology, cognitive science, neuroscience and philosophy of mind, that models mental or behavioral phenomena as the emergent processes of interconnected networks of simple units.",
+    "term": "Connectionist"
+  },
+  {
+    "definition": "A statistical Markov model in which the system being modeled is assumed to be a Markov process with unobserved states. Can be considered as the simplest dynamic Bayesian network.",
+    "term": "Hidden Markov Models"
+  },
+  {
+    "definition": "A process that results in the discovery of new patterns in large data sets. Utilizes methods at the intersection of artificial intelligence, machine learning, statistics, and database systems.",
+    "term": "Data Mining"
+  },
+  {
+    "definition": "A probabilistic graphical model (a type of statistical model) that represents a set of random variables and their conditional dependencies via a directed acyclic graph (DAG).",
+    "term": "Bayesian Network"
+  },
+  {
+    "definition": "That which strives for \"machines that think, that learn and that create.\" First at Minsky's symposium in 2004.",
+    "term": "Human-Level AI"
+  },
+  {
+    "definition": "Human-Level Artificial Intelligence",
+    "term": "HLAI"
+  },
+  {
+    "definition": "The search for a universal algorithm for learning and acting in any environment. Also known as Strong AI.",
+    "term": "Artificial General Intelligence"
+  },
+  {
+    "definition": "An artificial intelligence (AI) that has a positive rather than negative effect on humanity.",
+    "term": "Friendly AI"
+  },
+  {
+    "definition": "The branch of philosophy concerned with the nature and scope (limitations) of knowledge.",
+    "term": "Epistemology"
+  },
+  {
+    "definition": "A method in statistics of inference used to update the probability estimate for a hypothesis as additional evidence is learned.",
+    "term": "Bayesian Inference"
+  },
+  {
+    "definition": "The selection of a best element from some set of available alternatives.",
+    "term": "Optimization"
+  },
+  {
+    "definition": "A scientific theory in biological neuroscience which explains the adaptation of neurons in the brain during the learning process.",
+    "term": "Hebbian Theory"
+  },
+  {
+    "definition": "A form of machine learning that uses evolutionary algorithms to train artificial neural networks. It is useful for applications such as games and robot motor control, where it is easy to measure a network's performance at a task but difficult or impossible to create a syllabus of correct input-output pairs for use with a supervised learning algorithm.",
+    "term": "Neuroevolution"
+  },
+  {
+    "definition": "A subset of evolutionary computation, a generic population-based metaheuristic optimization algorithm. An EA uses some mechanisms inspired by biological evolution: reproduction, mutation, recombination, and selection.",
+    "term": "Evolutionary Algorithm"
+  },
+  {
+    "definition": "A subfield of artificial intelligence (more particularly computational intelligence) that involves combinatorial optimization problems.",
+    "term": "Evolutionary Computation"
+  },
+  {
+    "definition": "A stochastic model that assumes the Markov property. This assumption enables reasoning and computation with the model that would otherwise be intractable.",
+    "term": "Markov Model"
+  },
+  {
+    "definition": "Refers to the memoryless property of a stochastic process.",
+    "term": "Markov Property"
+  },
+  {
+    "definition": "A branch of mathematics that operates on stochastic processes. It allows a consistent theory of integration to be defined for integrals of stochastic processes with respect to stochastic processes. It is used to model systems that behave randomly.",
+    "term": "Stochastic Calculus"
+  },
+  {
+    "definition": "A probabilistic model which represents the conditional independence structure between random variables. They are commonly used in probability theory, statistics—particularly Bayesian statistics—and machine learning.",
+    "term": "Graphical Model"
+  },
+  {
+    "definition": "Artificial intelligence that matches or exceeds human intelligence — the intelligence of a machine that can successfully perform any intellectual task that a human being can. Also referred to as \"artificial general intelligence\" or as the ability to perform \"general intelligent action.",
+    "term": "Strong AI"
+  },
+  {
+    "definition": "During the late 1980s, this AI approach which was pioneered at the MIT Artificial Intelligence Laboratory by Rodney Brooks. It is different from classical artificial intelligence in that it tries not to reach for human-level performance, but rather tries to create systems with intelligence at the level of insects. This approach had a large impact in Europe.",
+    "term": "Nouvelle (Nouvelle AI)"
+  },
+  {
+    "definition": "A \"bottom-up\" approach towards agent design with a narrow focus on behaving usefully in an environment and on the the basic perceptual and motor skills required to survive. Gives a much lower priority to abstract reasoning or problem-solving skills of other agent design approaches.",
+    "term": "Situated Approach"
+  },
+  {
+    "definition": "Directly simulating the functions we associate with the body (such as perception and motion) without using logic or any similar representation.",
+    "term": "Embodied Cognition"
+  },
+  {
+    "definition": "A period of reduced funding and interest in artificial intelligence research. The field has experienced several cycles of hype, followed by disappointment and criticism, followed by funding cuts, followed by renewed interest years or decades later. There were two major instances in 1974-80 and 1987-93.",
+    "term": "AI winter"
+  },
+  {
+    "definition": "The act or process of deriving logical conclusions from premises known or assumed to be true. The conclusion drawn is also called an idiomatic.",
+    "term": "Inference"
+  },
+  {
+    "definition": "The process of reasoning from one or more general statements regarding what is known to reach a logically certain conclusion. Involves using given true premises to reach a conclusion that is also true.",
+    "term": "Deductive Reasoning"
+  },
+  {
+    "definition": "A kind of reasoning that constructs or evaluates propositions that are abstractions of observations of individual instances of members of the same class. Contrasts with reasoning where a general conclusion is arrived at by specific examples.",
+    "term": "Inductive Reasoning"
+  },
+  {
+    "definition": "A cognitive process of transferring information or meaning from a particular subject (the source) to another particular subject (the target).",
+    "term": "Analogy"
+  }
+]

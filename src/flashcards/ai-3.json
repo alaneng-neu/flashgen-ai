@@ -1,0 +1,182 @@
+[
+  {
+    "definition": "increased productivity\ndiminished human-caused errors\ndecreased human risk and injury",
+    "term": "Which of the following are potential positive outcomes of AI?"
+  },
+  {
+    "definition": "Infuse\nAnalyze\nOrganize\nCollect",
+    "term": "Identify the steps in IBM's Ladder Approach to AI."
+  },
+  {
+    "definition": "Observation\nInterpretation\nEvaluation\nDecision",
+    "term": "Put the steps of human decision making in the correct order. The first step of the process should be placed at the top."
+  },
+  {
+    "definition": "human",
+    "term": "According to John McCarthy from Stanford University, artificial intelligence (AI) is \"the science and engineering of making intelligent machines and intelligent computer programs. It is related to the similar task of using computers to understand Blank______ intelligence, but AI does not have to confine itself to biologically observable methods.\""
+  },
+  {
+    "definition": "Algorithms created by machine learning take data and answers to questions and use this to develop a machine learning model.\nMachine learning uses various data inputs to build an algorithm.\nIf-then statements are often used in machine learning models.",
+    "term": "Select the true statements about how machine learning can be used to solve a problem."
+  },
+  {
+    "definition": "Increased productivity\nDecreased human risk and injury\nDiminished human-caused errors",
+    "term": "Potential Positive Outcomes of AI"
+  },
+  {
+    "definition": "Job losses due to automation\nPrivacy concerns",
+    "term": "Potential Drawbacks of AI"
+  },
+  {
+    "definition": "unsupervised learning\nreinforcement learning\nsupervised learning",
+    "term": "Which of the following are machine learning methods?"
+  },
+  {
+    "definition": "IBM",
+    "term": "The Blank______ Ladder proposes a series of steps/considerations that breaks down AI strategy into individual pieces or rungs on a ladder to better connect data and AI systems."
+  },
+  {
+    "definition": "hidden layer\ninput layer",
+    "term": "Which of the following are neural network layers?"
+  },
+  {
+    "definition": "Enhanced security\n\nCost savings\n\nIncreased efficiency\n\nData management",
+    "term": "Advantages of Cloud-based AI"
+  },
+  {
+    "definition": "Data privacy\n\nInternet connectivity concerns\n\nLack of platform control",
+    "term": "Disadvantages of Cloud-based AI"
+  },
+  {
+    "definition": "cognitive",
+    "term": "The use of computer models that are designed to simulate human thought processes is referred to as Blank______ computing and is often used in complex environments where solutions may be ambiguous or difficult to uncover."
+  },
+  {
+    "definition": "GANs are designed to compete against each other (this is why they are termed adversarial) to create artificial instances of data that are interpreted as real data.\nThe neural networks in a GAN include a generative network.\nThe neural networks in a GAN include a discriminative network.",
+    "term": "Select the true statements about generative adversarial networks (GANs)."
+  },
+  {
+    "definition": "Machine learning systems improve their accuracy gradually through a continual process of learning.\nMachine learning uses data and algorithms to emulate the way humans learn.\nAI can learn from machine learning models created by inputs and analysis of anticipated outputs.",
+    "term": "Select the true statements about machine learning."
+  },
+  {
+    "definition": "In supervised learning, class labels are used to create the classification model.\nA classification model is designed when machine learning allocates a label value to a specific class and then seeks to recognize these values to decide what categories they fit into.\nSupervised learning uses data class labels within data sets that specify what the data represents.",
+    "term": "Select the true statements about supervised learning."
+  },
+  {
+    "definition": "Data and information from a variety of sources is entered into the neural network through this layer.",
+    "term": "Input Layer"
+  },
+  {
+    "definition": "This layer processes data sent by the input layer or from other associated layers.",
+    "term": "Hidden Layer"
+  },
+  {
+    "definition": "In this layer, information from the previous layers is analyzed. After this analysis occurs, a final prediction or conclusion is made.",
+    "term": "Output Layer"
+  },
+  {
+    "definition": "cost/benefit analysis\nanalysis of safety and security\ncreate public trust in AI",
+    "term": "The White House Office of Science and Technology Policy has identified ten principles to consider when articulating regulatory and non-regulatory methods for the development and use of AI. Principles identified by the White House Office of Science and Technology include which of the following?"
+  },
+  {
+    "definition": "software applications\nprocessing\nstorage",
+    "term": "Which of the following services are provided by Cloud computing networks?"
+  },
+  {
+    "definition": "1. GAN is fed actual images of houses\n2. The generator is fed random inputs\n3. The generator creates a sample based on these inputs\n4. If the discriminator chooses the real image instead of the generated image, the system will continue to develop/adjust generated images",
+    "term": "Put the steps for how an image of a house can be created using GANs in the correct order."
+  },
+  {
+    "definition": "deep learning",
+    "term": "A type of artificial intelligence that uses data and algorithms to create learning is called"
+  },
+  {
+    "definition": "Privacy",
+    "term": "The goal of machine learning practitioners is to design models that garner ideas and insights from data sets without revealing specific or sensitive data found within the data set."
+  },
+  {
+    "definition": "Surveillance",
+    "term": "Countries across the globe have installed millions of cameras to actively monitor public spaces. This rapid deployment of monitoring systems is concerning to many civil rights activists."
+  },
+  {
+    "definition": "Bias and Discrimination",
+    "term": "Bias and discrimination in AI can be intentional or unintentional. The goal is to minimize the occurrence of bias in AI systems."
+  },
+  {
+    "definition": "Human Judgement",
+    "term": "Do humans need to be involved in AI training and for AI systems to optimally run? Should this be a concern?"
+  },
+  {
+    "definition": "Explain how algorithms make decisions.\nHold themselves accountable for compliance, ethics, fairness, and nondiscrimination.\nEnsure that decisions are fair, robust, and empirically sound.",
+    "term": "The FTC acknowledged that AI has the potential to advance almost every industry, but all of this potential comes with some negative risks that must be addressed. Concerning AI, which of the following does the FTC urge organizations to provide evidence of?"
+  },
+  {
+    "definition": "bias",
+    "term": "The variance that exists in the output provided by AI algorithms is referred to as AI"
+  },
+  {
+    "definition": "privacy\nsurveillance\nbias and discrimination\nhuman judgement",
+    "term": "ethical considerations of AI"
+  },
+  {
+    "definition": "Implement data security and privacy principles.\nIncorporate transparency and accountability concerning AI practices.\nFollow laws, rules, and standards covering AI.",
+    "term": "Which of the following are guiding principles for the ethical use of AI?"
+  },
+  {
+    "definition": "Biases in AI often result from two factors: cognitive bias or incomplete data.\nAI bias is defined as variance that exists in the output provided by AI algorithms.\nCognitive bias includes conscious or unconscious errors in cognition that impact an individual's judgments, assumptions, and decision making.",
+    "term": "Which of the following are true statements about bias in AI?"
+  },
+  {
+    "definition": "sales and marketing\naccounting\nAIOps",
+    "term": "Identify current business applications and uses of AI."
+  },
+  {
+    "definition": "Creating output that can be shared with the public about how systems use data and interact with populations should be available.",
+    "term": "Transparency"
+  },
+  {
+    "definition": "Humans have to calculate the potential risks and consequences of their actions based on a number of factors, including morals and values.",
+    "term": "Human Values in AI"
+  },
+  {
+    "definition": "Experts agree that a multidisciplinary effort to advance AI is needed. Authorities across many disciplines need to establish a common set of standards and platforms.",
+    "term": "Collaboration"
+  },
+  {
+    "definition": "AI engineer\nuser experience",
+    "term": "Which of the following are popular AI career fields?"
+  },
+  {
+    "definition": "human",
+    "term": "Machine learning systems improve their accuracy gradually through a continual process of learning and rely on Blank______ interaction and input to assist in creating learning."
+  },
+  {
+    "definition": "artificial intelligence\ncomputer science",
+    "term": "Which of the following are popular college majors/emphasis areas for college students interested in preparing for a career in AI?"
+  },
+  {
+    "definition": "Avoid forming or reinforcing unfair bias in AI systems.\nDesign AI technologies that are socially beneficial.\nFollow laws, rules, and standards covering AI.",
+    "term": "Which of the following are guiding principles for the ethical use of AI?"
+  },
+  {
+    "definition": "AI relies heavily on algorithms to process data and create output.\nAI programs need data to create output.",
+    "term": "Select the true statements about the process of learning AI."
+  },
+  {
+    "definition": "pharmaceuticals\nrobotic surgery\nhealth tracking",
+    "term": "In which of the following healthcare areas is AI used?"
+  },
+  {
+    "definition": "Collaboration can help to build trust in AI platforms.\nCreating transparency is an important step in building trust in AI platforms.\nIn a recent study by Deloitte, 67 percent of executives responded they are \"not comfortable\" using data from advanced AI systems.",
+    "term": "Which of the following are true statements about trust in AI platforms?"
+  },
+  {
+    "definition": "31.4",
+    "term": "According to the Bureau of Labor Statistics, AI-related careers are predicted to increase by _ percent by the year 2030."
+  },
+  {
+    "definition": "python",
+    "term": "Many AI and computer science degree paths have inter-related requirements, including coursework in computer programing, especially"
+  }
+]

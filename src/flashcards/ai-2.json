@@ -1,0 +1,178 @@
+[
+  {
+    "definition": "refers to the art and science of creating computer systems that stimulate human though and behavior",
+    "term": "Artificial Intelligence"
+  },
+  {
+    "definition": "improvised explosive devices",
+    "term": "IEDs"
+  },
+  {
+    "definition": "100,000,000",
+    "term": "human brain can process ___ instructions per second"
+  },
+  {
+    "definition": "John McCarthy in 1956",
+    "term": "artificial intelligence proposed by"
+  },
+  {
+    "definition": "consist of the various approaches to AI research that generally fall under one of two categories: conventional AI or computational intelligence",
+    "term": "AI Methodologies"
+  },
+  {
+    "definition": "1. set of logical rules\n2. instructions for how to handle unexpected input\n3. machine learning",
+    "term": "3 components of AI"
+  },
+  {
+    "definition": "the ability to learn from experience to continuously improve performance",
+    "term": "machine learning"
+  },
+  {
+    "definition": "aka symbolic/logical/neat AI, uses programming that emphasizes statistical analysis to calculate the probability of various outcomes in order to find the best solution",
+    "term": "Conventional AI"
+  },
+  {
+    "definition": "an area of conventional AI in which the AI software maintains a library of problem cases and solutions",
+    "term": "case-based reasoning"
+  },
+  {
+    "definition": "1. retrieve\n2. reuse\n3. revise\n4. retain",
+    "term": "Case based reasoning 4 r's for solving problems"
+  },
+  {
+    "definition": "aka belief network, a form of conventional AI that uses a graphical model to represent a set of variables and their relationships and dependencies",
+    "term": "bayesian network"
+  },
+  {
+    "definition": "a form of conventional AI that is popular in programming robots",
+    "term": "Behavior-based AI"
+  },
+  {
+    "definition": "a form of conventional AI that is programmed to function like a human expert in a particular field or area",
+    "term": "Expert Systems"
+  },
+  {
+    "definition": "rules of thumb used by human experts to arrive at conclusions or make suggestions",
+    "term": "heuristics"
+  },
+  {
+    "definition": "an offshoot of AI that employs methodologies such as neural networks, fuzzy systems, and evolutionary computation to set up a system whereby the software can develop intelligence through an iterative learning process",
+    "term": "computational intelligence"
+  },
+  {
+    "definition": "numerical certainty- certain input values always result in the same output",
+    "term": "computers typically work with"
+  },
+  {
+    "definition": "derived from fuzzy set theory, which deals with reasoning that is approximate rather than exact",
+    "term": "fuzzy logic"
+  },
+  {
+    "definition": "based on fuzzy logic and typically used to control machines",
+    "term": "fuzzy control system"
+  },
+  {
+    "definition": "includes areas of AI that derive intelligence by attempting many solutions and throwing away the ones that don't work",
+    "term": "evolutionary computation"
+  },
+  {
+    "definition": "a form of evolutionary computation that is used to solve large, complex problems where a number of algorithms or models change and evolve until the best one emerges",
+    "term": "genetic algorithm"
+  },
+  {
+    "definition": "aka neural net, uses software to stimulate the functioning of the neurons in a human brain",
+    "term": "neural network"
+  },
+  {
+    "definition": "-ability to retrieve info even if some of neural nodes fail\n-fast modification of stored data\n-ability to discover relationships and trends\n-ability to solve complex problems",
+    "term": "special features of neural net"
+  },
+  {
+    "definition": "running a random program",
+    "term": "neural network begins by"
+  },
+  {
+    "definition": "devised by Alan Turing as a method of determining if a machine exhibits human intelligence\n-no machine had passed yet",
+    "term": "Turing test"
+  },
+  {
+    "definition": "technological singularity, the point in time at which computers exceed humans in intelligence, launching a new era of innovation",
+    "term": "singularity"
+  },
+  {
+    "definition": "tied to moore's law, processing power had been growing",
+    "term": "rationale behind singularity"
+  },
+  {
+    "definition": "bold attempt to simulate a human brain at a molecular level in software running on one of the worlds fastest supercomputers, IBMs Blue Gene",
+    "term": "blue brain project"
+  },
+  {
+    "definition": "concept of machines with intelligence that exceeds human intelligence",
+    "term": "strong AI"
+  },
+  {
+    "definition": "ways in which AI methodologies are applied to solve problems and provide services",
+    "term": "AI applications"
+  },
+  {
+    "definition": "involves developing mechanical or computer devices to perform tasks that require a high degree of precision or are tedious or hazardous for humans",
+    "term": "robotics"
+  },
+  {
+    "definition": "ultimate robotics test",
+    "term": "DARPA Grand challenge"
+  },
+  {
+    "definition": "dull\ndirt\nand dangerous",
+    "term": "robots are used for the three Ds jobs"
+  },
+  {
+    "definition": "combines hardware (cameras and scanners) and AI software that permit computers to capture, store, and interpret visual images and pictures",
+    "term": "computer vision"
+  },
+  {
+    "definition": "uses AI to enable computers to generate and understand natural human languages, such as english",
+    "term": "natural language processing"
+  },
+  {
+    "definition": "enables a computer to understand and react to spoken statements and commands",
+    "term": "speech recognition"
+  },
+  {
+    "definition": "a different technology used in the security field to identify an individual by the sound of his or her voice",
+    "term": "voice recognition"
+  },
+  {
+    "definition": "f you listen to a person speak from a computer's perspective, you will notice that there is roughly the same length of pause between syllables in words as there is between words in a sentence",
+    "term": "speech segmentation"
+  },
+  {
+    "definition": "There is no difference between the sound of the words \"their,\" \"there,\" and \"they're.\"",
+    "term": "ambiguity"
+  },
+  {
+    "definition": "Everyone speaks differently. The English language has many regional and personal dialect variations.",
+    "term": "voice variety"
+  },
+  {
+    "definition": "area of AI that develops systems that are trained to recognize patterns in data",
+    "term": "pattern recognition"
+  },
+  {
+    "definition": "uses AI techniques in software that can translate handwritten characters into computer readable data",
+    "term": "handwriting recognition"
+  },
+  {
+    "definition": "aka digital assistant, or bot, consists of programs and a knowledge base used to perform a specific task for a person, a process, or another program",
+    "term": "intelligent agent"
+  },
+  {
+    "definition": "a branch of AI that works to program computers to express themselves through art, music, poetry, and other outlets",
+    "term": "artificial creativity"
+  },
+  {
+    "definition": "center of research in computing and the arts- facilitate invention of new art forms",
+    "term": "CRCA"
+  }
+]

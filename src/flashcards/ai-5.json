@@ -1,0 +1,90 @@
+[
+  {
+    "definition": "the ability to acquire and apply knowledge and skills",
+    "term": "What is intelligence?"
+  },
+  {
+    "definition": "Alan Turing",
+    "term": "who is commonly associated with the genesis of the idea of artificial intelligence?"
+  },
+  {
+    "definition": "John McCarthy in 1955",
+    "term": "who coined the term \"artificial intelligence\" and when?"
+  },
+  {
+    "definition": "1950, a test developed by Alan Turing (a british computer scientist) to determine whether or not a computer is \"intelligent\"",
+    "term": "What is the Turing Test?"
+  },
+  {
+    "definition": "some argued that the Turing test is not a true test of intelligence, Searle's Chinese Room thought experiment",
+    "term": "what experiment tried to refute Turing's ideas?"
+  },
+  {
+    "definition": "two people, hidden from a third, third person asks questions to determine which one is male and female, one person lies and the other tells the truth",
+    "term": "The Imitation Game"
+  },
+  {
+    "definition": "what is one player was a computer? could the computer convince the human player that it was a human as well?",
+    "term": "How did Turing propose a slight twist to the Imitation Game with respect from AI?"
+  },
+  {
+    "definition": "artificial narrow intelligence (weak ai), artificial general intelligence (strong ai), artificial superintelligence",
+    "term": "Three categories of artificial intelligence"
+  },
+  {
+    "definition": "IBM's deep blue, spam filters, Google's AlphaGo, microsoft's tay, apple's siri, a.l.i.c.e, google cars",
+    "term": "examples of artificial narrow intelligence (weak ai)"
+  },
+  {
+    "definition": "recursive self improvement, 'the singularity', relatively good in more than one field, IBM's Watson",
+    "term": "examples of artificial general intelligence (strong ai)"
+  },
+  {
+    "definition": "an intelligence that's smarter than a human in every field",
+    "term": "what is artificial superintelligence?"
+  },
+  {
+    "definition": "1. increase computational power\n2. make it \"smart\"-try to have it emulate the brain and have it do thinking on its own",
+    "term": "two ways to get to strong ai (AGI)"
+  },
+  {
+    "definition": "pretty much the same thing as we do to get from ani to agi do we want to do this?!",
+    "term": "how do we get from agi to asi?"
+  },
+  {
+    "definition": "could be benevolent and solve all our problems like cancer, aging, and anything else",
+    "term": "what could asi do (good)"
+  },
+  {
+    "definition": "it could perceive us as a threat or insignificant and could lead us to our extinction",
+    "term": "what could asi do (bad)"
+  },
+  {
+    "definition": "a thought experiment in ethics (1. do nothing and 5 people die, 2. pull the lever and one person dies)",
+    "term": "trolley problem (example of how to teach morality to ai)"
+  },
+  {
+    "definition": "rule based algorithms, tree based algorithms, genetic algorithms, neural algorithms",
+    "term": "4 different algorithms for ai"
+  },
+  {
+    "definition": "like a computer having access to a textbook or encyclopedia",
+    "term": "rule based algorithms"
+  },
+  {
+    "definition": "look at chart in notes (outlook, sunny, overcast, rain, normal humidity, high humidity, weak wind, strong wind",
+    "term": "tree based algorithms"
+  },
+  {
+    "definition": "modeled on the process of evolution",
+    "term": "genetic algorithms"
+  },
+  {
+    "definition": "modeled on the human brain, specifically how our neurons are connected with each other",
+    "term": "neural networks"
+  },
+  {
+    "definition": "1. finance (to detect fraud)\n2. medicine (diagnosis, medical images)\n3. robotics\n4. online/telephone customer service\n5. transportation (cars and \"fuzzy logic\", traffic light systems, self driving cars)\n6. telecommunications (maintenance)\n7. toys and games\n8. music\n9. data mining\n10. spam filtering",
+    "term": "examples of applications of ai"
+  }
+]

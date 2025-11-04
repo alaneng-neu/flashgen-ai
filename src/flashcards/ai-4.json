@@ -1,0 +1,298 @@
+[
+  {
+    "definition": "AI is the study and application of processes that combine______ and data science to enable computer-assisted or automated problem-solving.",
+    "term": "computer"
+  },
+  {
+    "definition": "Two subfields if AI include which of the following?",
+    "term": "Machine learning\nDeep Learning"
+  },
+  {
+    "definition": "Which of the following are potential drawbacks of AI?",
+    "term": "job losses due to automation\nprivacy concerns"
+  },
+  {
+    "definition": "The ______ Ladder proposes a series of steps/considerations that breaks down AI strategy into individual pieces or rungs on a ladder to better connect data and AI systems.",
+    "term": "IBM"
+  },
+  {
+    "definition": "Which of the following services are provided by Cloud computing networks?",
+    "term": "processing\nstorage\nsoftware applications"
+  },
+  {
+    "definition": "The use of computer models that are designed to simulate human thought processes is referred to as ______ computing and is often used in complex environments where solutions may be ambiguous or difficult to uncover.",
+    "term": "cognitive"
+  },
+  {
+    "definition": "Which of the following are potential positive outcomes of AI?",
+    "term": "diminished human-caused errors\ndecreased human risk and injury\nincreased productivity"
+  },
+  {
+    "definition": "Select the true statements about information architecture",
+    "term": "IA is a crucial component of the overall AI strategy of an organization.\nMany experts agree that there is no AI without the analysis and implementation of IA.\nIA is about helping people understand their surroundings and allowing them to find what they're looking for in the real world and online"
+  },
+  {
+    "definition": "Machine learning systems improve their accuracy gradually through a continual process of learning and rely on ______ interaction and input to assist in creating learning.",
+    "term": "human"
+  },
+  {
+    "definition": "Which of the following are Cloud-based AI applications?",
+    "term": "IoT\nAIaaS\nchatbots"
+  },
+  {
+    "definition": "Cognitive systems use a decision-making approach similar to that used by humans to analyze large data sets to make decisions. These systems use ______ language processing to read and process text like a human. They break down statements and sentences by analyzing them for grammar, structure, and relationships within the words",
+    "term": "natural"
+  },
+  {
+    "definition": "Which of the following are machine learning methods?",
+    "term": "supervised learning\nunsupervised learning\nreinforcement learning"
+  },
+  {
+    "definition": "Select the true statements about how machine learning can be used to solve a problem",
+    "term": "Machine learning uses various data inputs to build an algorithm.\nAlgorithms created by machine learning take data and answers to questions and use this to develop a machine learning model.\nIf-then statements are often used in machine learning models"
+  },
+  {
+    "definition": "Data and information from a variety of sources is entered into the neural network through this layer.",
+    "term": "Input Layer"
+  },
+  {
+    "definition": "This layer processes data sent by the input layer or from other associated layers",
+    "term": "Hidden Layer"
+  },
+  {
+    "definition": "In this layer, information from the previous layers is analyzed. After this analysis occurs, a final prediction or conclusion is made.",
+    "term": "Output Layer"
+  },
+  {
+    "definition": "1. Observation\n2. Interpretation\n3. Evaluation\n4. Decision",
+    "term": "Human Decision Making steps"
+  },
+  {
+    "definition": "1. The GAN is fed actual images of houses.\n2. The generator is fed random inputs.\n3. The generator creates a sample based on these inputs\n4. If the discriminator chooses the real image instead of the generated image, the system will continue to develop/adjust generated images.",
+    "term": "How an image of a house can be created using GANs"
+  },
+  {
+    "definition": "Select the true statements about supervised learning",
+    "term": "Supervised learning uses data class labels within data sets that specify what the data represents.\nIn supervised learning, class labels are used to create the classification model.\nA classification model is designed when machine learning allocates a label value to a specific class and then seeks to recognize these values to decide what categories they fit into."
+  },
+  {
+    "definition": "A type of artificial intelligence that uses data and algorithms to create learning is called ______ learning",
+    "term": "deep"
+  },
+  {
+    "definition": "Analysis of safety and security\nCost/benefit analysis\nCreate public trust in AI\nPublic participation\nScientific Integrity and information quality\nFlexibility\nFairness and nondiscrimination\nDisclosure and transparency\nInteragency coordination",
+    "term": "The White House Office of Science and Technology Policy has identified ten principles to consider when articulating regulatory and non-regulatory methods for the development and use of AI."
+  },
+  {
+    "definition": "Which of the following are ethical considerations of AI?",
+    "term": "bias and discrimination\nprivacy\nsurveillance"
+  },
+  {
+    "definition": "Which of the following are true statements about bias in AI?",
+    "term": "Cognitive bias includes conscious or unconscious errors in cognition that impact an individual's judgments, assumptions, and decision making.\nBiases in AI often result from two factors: cognitive bias or incomplete data.\nAI bias is defined as variance that exists in the output provided by AI algorithms."
+  },
+  {
+    "definition": "Select the true statements about generative adversarial networks (GANs).",
+    "term": "GANs are designed to compete against each other (this is why they are termed adversarial) to create artificial instances of data that are interpreted as real data.\nThe neural networks in a GAN include a generative network.\nThe neural networks in a GAN include a discriminative network"
+  },
+  {
+    "definition": "1. Collect Data\n2. Choose and Optimize the Algorithm\n3. Setup and Manage the Environment for Training\n4. Train, Retrain, and Tune the Models\n5. Deploy Models in Production\n6. Scale and Manage the Production Environment",
+    "term": "Amazon Web Services (AWS) deep learning process"
+  },
+  {
+    "definition": "Sharing of experiences and best practices for AI governance should be maintained between governmental agencies.",
+    "term": "Interagency Coordination"
+  },
+  {
+    "definition": "There must be a method to detect when AI is in use as well as a way to address possible impacts of AI on end-users.",
+    "term": "Disclosure and Transparency"
+  },
+  {
+    "definition": "When financially feasible and including adherence to legal requirements, organizations should allow the public to be part of the AI rule-making processes and procedures.",
+    "term": "Public Participation"
+  },
+  {
+    "definition": "The establishment and maintenance of high standards as they relate to AI information quality and decision making can assist in gaining public trust and confidence in AI.",
+    "term": "Scientific Integrity and Information Quality"
+  },
+  {
+    "definition": "In a recent study by Deloitte, __percent of executives responded they are \"not comfortable\" using data from advanced AI systems.",
+    "term": "67"
+  },
+  {
+    "definition": "Which of the following are ethical considerations of AI?",
+    "term": "Human Judgement\nprivacy"
+  },
+  {
+    "definition": "The variance that exists in the output provided by AI algorithms is referred to as AI:",
+    "term": "bias"
+  },
+  {
+    "definition": "A type of machine learning model that uses two neural networks is referred to as a(n) ______ adversarial network. These networks are designed to compete against each other (this is why they are termed adversarial) to create artificial instances of data that are interpreted as real data.",
+    "term": "generative"
+  },
+  {
+    "definition": "Which of the following are guiding principles for the ethical use of AI?",
+    "term": "Design AI technologies that are socially beneficial.\nFollow laws, rules, and standards covering AI.\nAvoid forming or reinforcing unfair bias in AI systems."
+  },
+  {
+    "definition": "Which of the following are true statements about trust in AI platforms?",
+    "term": "In a recent study by Deloitte, 67 percent of executives responded they are \"not comfortable\" using data from advanced AI systems.\nCreating transparency is an important step in building trust in AI platforms.\nCollaboration can help to build trust in AI platforms."
+  },
+  {
+    "definition": "AIOps (IT Operations)\nSales and marketing\nAccounting\nManufacturing\nRobotic Surgery\nHealth Tracking\nPharmaceuticals\nAutomation of Routine Tasks\nMilitary\nPolicing",
+    "term": "Identify current applications and uses of AI."
+  },
+  {
+    "definition": "AIOps\nsales and marketing\naccounting",
+    "term": "Identify current business applications and uses of AI."
+  },
+  {
+    "definition": "A mathematical framework that can be used to analyze how much an algorithm recalls data and information about individuals is called differential",
+    "term": "privacy"
+  },
+  {
+    "definition": "Which of the following are popular AI career fields?",
+    "term": "User experience\nAI engineer\nMachine Learning Engineer\nData Scientist"
+  },
+  {
+    "definition": "Which of the following are popular college majors/emphasis areas for college students interested in preparing for a career in AI?",
+    "term": "artificial intelligence\ncomputer science"
+  },
+  {
+    "definition": "AI technologies should be advantageous for diverse populations and society as a whole.",
+    "term": "Design AI technologies that are socially responsible."
+  },
+  {
+    "definition": "Data sets and algorithms used in AI systems often include (whether intentional or unintentional) unfair or misrepresentational prejudice.",
+    "term": "Avoid forming or reinforcing unfair bias in AI systems."
+  },
+  {
+    "definition": "Disclosure of AI practices, procedures, applications, and methods is encouraged in order to create and maintain a positive AI culture.",
+    "term": "Incorporate transparency and accountability concerning AI practices"
+  },
+  {
+    "definition": "Which of the following are steps you can take to learn about artificial intelligence (AI)?",
+    "term": "Study computer programming languages.\nTake free online courses and find free online resources covering AI.\nLearn about the math used in AI."
+  },
+  {
+    "definition": "health tracking\nrobotic surgery\npharmaceuticals",
+    "term": "In which of the following healthcare areas is AI used?"
+  },
+  {
+    "definition": "Select the true statements about AI chatbots.",
+    "term": "A computer program that incorporates artificial intelligence (AI) and other computer science principles to interpret user-provided questions and provide automated responses, thus simulating human conversation.\nA computer program that incorporates natural language processing (NLP) to interpret user-provided questions and provide automated responses, thus simulating human conversation.\nThe more time the AI chatbot has been operational, the likelihood of accuracy and detail in provided responses increases."
+  },
+  {
+    "definition": "According to the Bureau of Labor Statistics, AI-related careers are predicted to increase by_______ percent by the year 2030.",
+    "term": "31.4"
+  },
+  {
+    "definition": "Learning models that are _____ use neural networks that can process input text and accurately produce output sequences.",
+    "term": "Transformer-based"
+  },
+  {
+    "definition": "Many AI and computer science degree paths have inter-related requirements, including coursework in computer programing, especially",
+    "term": "python"
+  },
+  {
+    "definition": "Key features of AI-Powered Bing include which of the following?",
+    "term": "Post completed responses to complex questions\nCreate images\nProvide targeted search results"
+  },
+  {
+    "definition": "Understand algorithm procedures and development.\n,\nLearn about data collection and analysis.\n,\nJoin online AI communities.",
+    "term": "Steps to learn about AI"
+  },
+  {
+    "definition": "Select the true statements about AI detection software",
+    "term": "AI detection software is offered by OpenAI.\nAI detection can help to ensure submitted work is unique, authentic, and not generated by AI.\nAI detection software is designed to counter the risk of plagiarism."
+  },
+  {
+    "definition": "Artificial Intelligence",
+    "term": "AI"
+  },
+  {
+    "definition": "Natural Language Processing",
+    "term": "NLP"
+  },
+  {
+    "definition": "Natural Language Understanding",
+    "term": "NLU"
+  },
+  {
+    "definition": "Select the true statements about AI language models.",
+    "term": "AI language models, specifically transformer-based models, use neural networks that can process input text accurately.\nThere are a number of AI language models in use including GPT-3 and GPT-4.\nAI language models are computer software programs that use AI to process and generate human languages."
+  },
+  {
+    "definition": "What company is responsible for the development of ChatGPT?",
+    "term": "Open AI"
+  },
+  {
+    "definition": "Select the true statements about the process of learning AI",
+    "term": "AI programs need data to create output.\nAI relies heavily on algorithms to process data and create output."
+  },
+  {
+    "definition": "Which of the following are popular AI detection software programs?",
+    "term": "GPT Zero\nTurnitin AI Writing Detection Model\nAI Text Classifier by OpenAI"
+  },
+  {
+    "definition": "Which of the following terms are associated with AI chatbots?",
+    "term": "Artificial Intelligence (AI)\nNatural Language Processing (NLP)\nNatural Language Understanding (NLU)"
+  },
+  {
+    "definition": "Transparency covers the consequences of interacting with AI-assisted chatbots in which ways?",
+    "term": "Data Collection\nSite ownership\nInformation privacy and security"
+  },
+  {
+    "definition": "Caktus AI is an AI-powered language model that can be used for which of the following?",
+    "term": "Create essays with the assistance of AI.\nWrite Python code."
+  },
+  {
+    "definition": "The large volumes of data that AI chatbots are trained on pose the risk of inaccurate or misleading response generation",
+    "term": "Misrepresentation"
+  },
+  {
+    "definition": "Chatbot responses may contain information from preexisting sources",
+    "term": "Chatbot Plagiarism"
+  },
+  {
+    "definition": "Information provided by AI chatbots should be treated in the same way as information from a journal article or book.",
+    "term": "False Represntation"
+  },
+  {
+    "definition": "Which of the following are considerations of AI chatbot ethics?",
+    "term": "Accurate data representation\nTransparency\nChatbot identity and persona"
+  },
+  {
+    "definition": "As explained in your reading, which of the following answers are considered areas of AI chatbot research?",
+    "term": "Personalization\nTechnology Integration\nInteractions in Multiple Languages"
+  },
+  {
+    "definition": "Which of the following are uses of ChatGPT?",
+    "term": "Analysis of computer code\nLanguage translation\nSentiment Analysis"
+  },
+  {
+    "definition": "Select the true statements about student use of AI chatbots and chatbot plagiarism.",
+    "term": "Most AI chatbot providers report that responses provided by AI chatbots are only produced with unique responses. However, in some instances this has been proven false.\nMost AI chatbots do not provide source or attribution information.\nYou should assume that responses provided by AI chatbots may contain information from other sources."
+  },
+  {
+    "definition": "Technological transparency concerning AI-assisted chatbots refers to awareness regarding all aspects of the use of the software.",
+    "term": "Transparency"
+  },
+  {
+    "definition": "Chatbots need to be trained to ensure they behave appropriately. If chatbots are not properly trained, they could exhibit traits such as racism, sexism, and abusive language.",
+    "term": "Chatbot Identity and Persona"
+  },
+  {
+    "definition": "How the software handles abusive language and generates controversial content.",
+    "term": "Proper Communication"
+  },
+  {
+    "definition": "Users of AI chatbots should take precautions to ensure that the data and information that is returned are accurate.",
+    "term": "Accurate Data Representation"
+  },
+  {
+    "definition": "Which of the following should be considered before a student uses information provided by an AI chatbot?",
+    "term": "Chatbot Plagiarism\nFalse Representation\nMisinformation"
+  }
+]

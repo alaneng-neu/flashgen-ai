@@ -1,0 +1,37 @@
+{
+  "ai-1.json": {
+    "processed_at": "2025-11-04T12:35:40.799915",
+    "modified_time": 1762275249.7835202,
+    "path": "flashcards\\ai-1.json",
+    "format": "json",
+    "extension": ".json"
+  },
+  "ai-2.json": {
+    "processed_at": "2025-11-04T12:35:40.800123",
+    "modified_time": 1762275331.9711134,
+    "path": "flashcards\\ai-2.json",
+    "format": "json",
+    "extension": ".json"
+  },
+  "ai-3.json": {
+    "processed_at": "2025-11-04T12:35:40.800176",
+    "modified_time": 1762275342.7602835,
+    "path": "flashcards\\ai-3.json",
+    "format": "json",
+    "extension": ".json"
+  },
+  "ai-4.json": {
+    "processed_at": "2025-11-04T12:35:40.800215",
+    "modified_time": 1762275351.1091895,
+    "path": "flashcards\\ai-4.json",
+    "format": "json",
+    "extension": ".json"
+  },
+  "ai-5.json": {
+    "processed_at": "2025-11-04T12:35:40.800252",
+    "modified_time": 1762275358.6755838,
+    "path": "flashcards\\ai-5.json",
+    "format": "json",
+    "extension": ".json"
+  }
+}
