@@ -1,6 +1,14 @@
+# preprocessing requirements
 langchain
 langchain-chroma
 langchain-huggingface
 sentence-transformers
 chromadb
 langchain_text_splitters
+# api requirements
+uvicorn
+fastapi[standard]
+sqlmodel
+python-dotenv
+python-multipart
+alembic
