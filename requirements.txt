@@ -12,3 +12,4 @@ sqlmodel
 python-dotenv
 python-multipart
 alembic
+psycopg2-binary
