@@ -5,6 +5,7 @@ langchain-huggingface
 sentence-transformers
 chromadb
 langchain_text_splitters
+transformers
 # api requirements
 uvicorn
 fastapi[standard]

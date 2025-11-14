@@ -1,0 +1,202 @@
+[
+  {
+    "definition": "A model that performs well on training data but poorly on new data because it memorized patterns instead of generalizing.",
+    "term": "Overfitting"
+  },
+  {
+    "definition": "An optimization algorithm that updates model parameters by moving in the direction that reduces loss.",
+    "term": "Gradient Descent"
+  },
+  {
+    "definition": "The process of selecting, transforming, or creating input variables to improve model performance.",
+    "term": "Feature Engineering"
+  },
+  {
+    "definition": "A technique that penalizes model complexity to reduce overfitting.",
+    "term": "Regularization"
+  },
+  {
+    "definition": "A table that shows true/false positives and negatives to evaluate classification performance.",
+    "term": "Confusion Matrix"
+  },
+  {
+    "definition": "A nonlinear function applied to a neuron's output to allow neural networks to learn complex patterns.",
+    "term": "Activation Function"
+  },
+  {
+    "definition": "A learning paradigm where an agent learns by interacting with an environment and receiving rewards.",
+    "term": "Reinforcement Learning"
+  },
+  {
+    "definition": "A dense vector representation of data (like words) that captures meaning or relationships.",
+    "term": "Embedding"
+  },
+  {
+    "definition": "Using a model trained on one task as the starting point for another, typically with less data.",
+    "term": "Transfer Learning"
+  },
+  {
+    "definition": "Breaking text into smaller units (words, subwords, or characters) for NLP processing.",
+    "term": "Tokenization"
+  },
+  {
+    "definition": "Label",
+    "term": "In supervised learning, each training example comes with a corresponding ________."
+  },
+  {
+    "definition": "Patterns or structure",
+    "term": "The goal of unsupervised learning is to discover hidden ________ in data."
+  },
+  {
+    "definition": "Backpropagation",
+    "term": "A neural network adjusts its weights through a process known as ________."
+  },
+  {
+    "definition": "Sampling",
+    "term": "________ bias occurs when the data used to train a model does not represent real-world conditions."
+  },
+  {
+    "definition": "Clusters",
+    "term": "In k-means clustering, \"k\" represents the number of ________."
+  },
+  {
+    "definition": "Gini impurity",
+    "term": "In decision trees, information gain is typically calculated using ________ or entropy."
+  },
+  {
+    "definition": "Residual",
+    "term": "The difference between predicted and actual values in regression is called the ________."
+  },
+  {
+    "definition": "Data collection, preprocessing, model training, evaluation/deployment",
+    "term": "List the 4 main steps of the machine learning lifecycle."
+  },
+  {
+    "definition": "Agent observes state → takes action → environment responds → agent receives reward",
+    "term": "Name the stages of reinforcement learning."
+  },
+  {
+    "definition": "Initialize weights → forward pass → compute loss → backpropagate → update weights",
+    "term": "List the typical steps in building a neural network."
+  },
+  {
+    "definition": "Regularization, dropout, early stopping",
+    "term": "List three common methods to prevent overfitting."
+  },
+  {
+    "definition": "Nodes, branches, leaves",
+    "term": "What are the main components of a decision tree?"
+  },
+  {
+    "definition": "Supervised, unsupervised, reinforcement",
+    "term": "List the three types of learning paradigms."
+  },
+  {
+    "definition": "Tokenization, feature extraction, modeling, evaluation",
+    "term": "What are the main phases of natural language processing?"
+  },
+  {
+    "definition": "It ensures all features are on similar scales, improving model stability and convergence.",
+    "term": "Why is normalization important in machine learning?"
+  },
+  {
+    "definition": "Without them, the network becomes linear and cannot learn complex relationships.",
+    "term": "Why do deep neural networks need activation functions?"
+  },
+  {
+    "definition": "By combining multiple models to reduce variance, bias, or both.",
+    "term": "How does ensemble learning improve performance?"
+  },
+  {
+    "definition": "It helps tune hyperparameters without leaking test data.",
+    "term": "Why is the validation set important?"
+  },
+  {
+    "definition": "They reduce overfitting and allow networks to learn complex patterns.",
+    "term": "Why are large datasets helpful for deep learning models?"
+  },
+  {
+    "definition": "Randomly disabling neurons during training to prevent co-adaptation and overfitting.",
+    "term": "What is the purpose of dropout?"
+  },
+  {
+    "definition": "The model is too simple or not flexible enough to capture underlying patterns.",
+    "term": "Why might a model have high bias?"
+  },
+  {
+    "definition": "It may hide poor performance on minority classes.",
+    "term": "How is accuracy misleading in imbalanced datasets?"
+  },
+  {
+    "definition": "Imbalanced classification problem",
+    "term": "A dataset where most emails are \"not spam,\" but the model predicts \"not spam\" for everything and scores 95% accuracy."
+  },
+  {
+    "definition": "Regression residual",
+    "term": "A model predicts 72°F, actual is 75°F. The difference of 3°F represents which concept?"
+  },
+  {
+    "definition": "Transfer learning",
+    "term": "A model uses previously learned language representations from BERT to classify tweets."
+  },
+  {
+    "definition": "Reinforcement learning",
+    "term": "A robot learns to navigate a maze by receiving rewards for reaching the goal."
+  },
+  {
+    "definition": "Embedding",
+    "term": "A neural network layer turns the input [0.2, 0.8] into a 3-dimensional vector."
+  },
+  {
+    "definition": "Clustering (unsupervised learning)",
+    "term": "Grouping customers based on purchasing behavior without labels."
+  },
+  {
+    "definition": "B",
+    "term": "What is the primary purpose of a loss function? A. Store model weights B. Measure how wrong predictions are C. Generate training data D. Split the dataset"
+  },
+  {
+    "definition": "B",
+    "term": "Which of the following is a common activation function? A. RandomForest B. ReLU C. Cosine similarity D. Bagging"
+  },
+  {
+    "definition": "B",
+    "term": "Which technique reduces model variance? A. L2 regularization B. Bagging C. Increasing learning rate D. PCA"
+  },
+  {
+    "definition": "B",
+    "term": "Which method is used for dimensionality reduction? A. Naive Bayes B. PCA C. Logistic regression D. KNN"
+  },
+  {
+    "definition": "B",
+    "term": "Which model is most suitable for sequential data? A. CNN B. RNN C. SVM D. K-means"
+  },
+  {
+    "definition": "A",
+    "term": "What does \"epoch\" mean in training? A. One full pass through the training dataset B. One gradient calculation C. A hyperparameter that controls complexity D. A type of loss function"
+  },
+  {
+    "definition": "A",
+    "term": "What is precision concerned with? A. Correct positive predictions out of all predictions B. Correct positive predictions out of true positives C. Correct negative predictions out of false negatives D. How many total samples the model predicted"
+  },
+  {
+    "definition": "B",
+    "term": "What does the k in k-NN represent? A. The number of layers B. The number of neighbors to compare C. The number of clusters D. The number of epochs"
+  },
+  {
+    "definition": "False",
+    "term": "True/False: A larger model always performs better than a smaller model."
+  },
+  {
+    "definition": "True",
+    "term": "True/False: Cross-validation helps assess how well a model generalizes."
+  },
+  {
+    "definition": "False",
+    "term": "True/False: In NLP, stopwords are always removed by default."
+  },
+  {
+    "definition": "False",
+    "term": "True/False: Reinforcement learning requires labeled datasets."
+  }
+]
