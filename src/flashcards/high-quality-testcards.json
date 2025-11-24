@@ -124,32 +124,32 @@
     "term": "Why might a model have high bias?"
   },
   {
-    "definition": "It may hide poor performance on minority classes.",
+    "definition": "It helps hide poor performance on minority classes.",
     "term": "How is accuracy misleading in imbalanced datasets?"
   },
   {
     "definition": "Imbalanced classification problem",
-    "term": "A dataset where most emails are \"not spam,\" but the model predicts \"not spam\" for everything and scores 95% accuracy."
+    "term": "Example: A dataset where most emails are \"not spam,\" but the model predicts \"not spam\" for everything and scores 95% accuracy."
   },
   {
     "definition": "Regression residual",
-    "term": "A model predicts 72°F, actual is 75°F. The difference of 3°F represents which concept?"
+    "term": "Example: A model predicts 72°F, actual is 75°F. The difference of 3°F represents which concept?"
   },
   {
     "definition": "Transfer learning",
-    "term": "A model uses previously learned language representations from BERT to classify tweets."
+    "term": "Example: A model uses previously learned language representations from BERT to classify tweets."
   },
   {
     "definition": "Reinforcement learning",
-    "term": "A robot learns to navigate a maze by receiving rewards for reaching the goal."
+    "term": "Example: A robot learns to navigate a maze by receiving rewards for reaching the goal."
   },
   {
     "definition": "Embedding",
-    "term": "A neural network layer turns the input [0.2, 0.8] into a 3-dimensional vector."
+    "term": "Example: A neural network layer turns the input [0.2, 0.8] into a 3-dimensional vector."
   },
   {
     "definition": "Clustering (unsupervised learning)",
-    "term": "Grouping customers based on purchasing behavior without labels."
+    "term": "Example: Grouping customers based on purchasing behavior without labels."
   },
   {
     "definition": "B",

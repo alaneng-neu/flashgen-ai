@@ -4,7 +4,7 @@ sys.path.append("src")
 from quizlet_loader import QuizletLoader
 
 loader = QuizletLoader(
-    file_path="/Users/jessica/Desktop/github/cs4100-final-project/src/flashcards/high-quality-testcards.json",
+    file_path="./src/flashcards/high-quality-testcards.json",
     file_format="json",
     classify_cards=True
 )
@@ -20,7 +20,12 @@ except Exception as e:
 
 
 # load and classify flashcards with llm
+PRINT_INDICES = {1, 10, 11, 17, 18, 24, 25, 32, 33, 38, 39, 46, 47, 50}
+
 for i, doc in enumerate(loader.lazy_load(), start=1):
+    # only print for the requested indices
+    if i not in PRINT_INDICES:
+        continue
 
     print(f"\nCard {i}:")
 
@@ -33,6 +38,3 @@ for i, doc in enumerate(loader.lazy_load(), start=1):
 
     print("  term:", doc.metadata.get("term"))
     print("  definition:", doc.metadata.get("definition"))
-
-    if i >= 20:
-        break
