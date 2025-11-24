@@ -1,20 +1,8 @@
 from typing import Optional, List, Tuple
 from pathlib import Path
 import json
-try:
-    from langchain_core.document_loaders import BaseLoader
-    from langchain_core.documents import Document
-except Exception:
-    # dont need langchain installed to use the loader in isolation
-    class BaseLoader:
-        pass
-
-    from dataclasses import dataclass
-
-    @dataclass
-    class Document:
-        page_content: str
-        metadata: dict
+from langchain_core.document_loaders import BaseLoader
+from langchain_core.documents import Document
 
 # Use a small LLM client wrapper for zero-shot classification (lazy init)
 from llm import LLMClient, get_shared_zero_shot
@@ -90,7 +78,7 @@ class QuizletLoader(BaseLoader):
         self.encoding = encoding
         self.combine_cards = combine_cards
         self.source_name = source_name or self.file_path.name
-        self.classify_model = classify_model or "facebook/bart-large-mnli"
+        self.classify_model = classify_model or "MoritzLaurer/deberta-v3-large-zeroshot-v2.0"
         self.transformer_confidence_threshold = float(transformer_confidence_threshold)
         # optionally injected or shared zero-shot client (lazy init occurs inside client)
         self.zero_shot_client = zero_shot_client

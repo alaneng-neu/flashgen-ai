@@ -16,7 +16,7 @@ class LLMClient:
       transformers directly.
     """
 
-    def __init__(self, model: str = "facebook/bart-large-mnli") -> None:
+    def __init__(self, model: str = "MoritzLaurer/deberta-v3-large-zeroshot-v2.0") -> None:
         self.model = model
         self._pipeline = None
         # protect pipeline init/close so concurrent callers don't race
@@ -93,7 +93,7 @@ class LLMClient:
 _shared_client: Optional[LLMClient] = None
 
 
-def get_shared_zero_shot(model: str = "facebook/bart-large-mnli") -> LLMClient:
+def get_shared_zero_shot(model: str = "MoritzLaurer/deberta-v3-large-zeroshot-v2.0") -> LLMClient:
     global _shared_client
     if _shared_client is None:
         _shared_client = LLMClient(model=model)

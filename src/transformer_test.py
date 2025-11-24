@@ -35,7 +35,7 @@ def main() -> None:
     p.add_argument("--file", default="./src/flashcards/high-quality-testcards.json")
     p.add_argument("--indices", default=",".join(map(str, DEFAULT_INDICES)))
     p.add_argument("--template", default="This is {}.")
-    p.add_argument("--model", default="facebook/bart-large-mnli")
+    p.add_argument("--model", default="MoritzLaurer/deberta-v3-large-zeroshot-v2.0")
     p.add_argument("--max-cards", type=int, default=500)
     # tie-break option: pass transformer threshold to loader
     p.add_argument("--transformer-threshold", type=float, default=0.5, help="If set, loader will prefer rule when transformer top-score < threshold")
