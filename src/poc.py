@@ -6,9 +6,8 @@ from quizlet_loader import QuizletLoader
 loader = QuizletLoader(
     file_path="./src/flashcards/high-quality-testcards.json",
     file_format="json",
-    classify_cards=True
 )
-
+ 
 # test initial LLM connection
 print("testing LLM connection...")
 try:

@@ -49,19 +49,13 @@ def main() -> None:
         loader_kwargs["transformer_confidence_threshold"] = args.transformer_threshold
     loader = QuizletLoader(file_path=args.file, file_format="json", **loader_kwargs)
 
-    # lazy import HF pipeline
+    # Create or get shared LLM client (lazy init inside client)
+    from llm import get_shared_zero_shot
     try:
-        from transformers import pipeline
-    except Exception:
-        pipeline = None
-
-    hf_clf = None
-    if pipeline is not None:
-        try:
-            hf_clf = pipeline("zero-shot-classification", model=args.model)
-        except Exception as e:
-            print("Failed to init HF pipeline:", e)
-            hf_clf = None
+        hf_clf = get_shared_zero_shot(args.model)
+    except Exception as e:
+        print("Failed to configure LLM client:", e)
+        hf_clf = None
 
     rows = []
 
@@ -98,7 +92,7 @@ def main() -> None:
                 # reuse loader's label phrases
                 candidate_phrases = list(loader.LABEL_PHRASES.values())
                 inverse_map = {v: k for k, v in loader.LABEL_PHRASES.items()}
-                out_plain = hf_clf(text, candidate_labels=candidate_phrases, hypothesis_template=args.template)
+                out_plain = hf_clf.classify(text, candidate_labels=candidate_phrases, hypothesis_template=args.template)
                 plain_phrase = out_plain["labels"][0]
                 plain_pred = inverse_map.get(plain_phrase, plain_phrase)
                 plain_scores = out_plain.get("scores")
@@ -108,7 +102,7 @@ def main() -> None:
             if cue:
                 text_with_cue = f"{cue} {text}"
                 try:
-                    out_cue = hf_clf(text_with_cue, candidate_labels=candidate_phrases, hypothesis_template=args.template)
+                    out_cue = hf_clf.classify(text_with_cue, candidate_labels=candidate_phrases, hypothesis_template=args.template)
                     cue_phrase = out_cue["labels"][0]
                     cue_pred = inverse_map.get(cue_phrase, cue_phrase)
                     cue_scores = out_cue.get("scores")

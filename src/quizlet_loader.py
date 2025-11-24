@@ -16,12 +16,8 @@ except Exception:
         page_content: str
         metadata: dict
 
-# Try transformers-based zero-shot classifier, or fall back to a lightweight rule-based classifier
-# This part optional so the loader works without extra dependencies
-try:
-    from transformers import pipeline
-except Exception:
-    pipeline = None
+# Use a small LLM client wrapper for zero-shot classification (lazy init)
+from llm import LLMClient, get_shared_zero_shot
 
 
 class QuizletLoader(BaseLoader):
@@ -65,8 +61,10 @@ class QuizletLoader(BaseLoader):
         encoding: str = "utf-8",
         combine_cards: bool = False,
         source_name: Optional[str] = None,
-        # loader will use the HF zero-shot pipeline with 'facebook/bart-large-mnli' by default
+        # loader will use the HF zero-shot pipeline with 'facebook/bart-large-mni' by default
         classify_model: Optional[str] = None,
+        # optional injected LLM client for dependency injection / testing
+        zero_shot_client: Optional[LLMClient] = None,
         # threshold for accepting the transformer's top prediction when rule is not strong
         transformer_confidence_threshold: float = 0.5,
         # when to use cues: 'strong_only' (default) uses cues only for strong rule matches,
@@ -94,6 +92,17 @@ class QuizletLoader(BaseLoader):
         self.source_name = source_name or self.file_path.name
         self.classify_model = classify_model or "facebook/bart-large-mnli"
         self.transformer_confidence_threshold = float(transformer_confidence_threshold)
+        # optionally injected or shared zero-shot client (lazy init occurs inside client)
+        self.zero_shot_client = zero_shot_client
+        if self.zero_shot_client is None:
+            try:
+                self.zero_shot_client = get_shared_zero_shot(self.classify_model)
+                # note: actual model weights are loaded lazily by LLMClient.classify
+                print("zero-shot client configured (pipeline will init lazily)")
+            except Exception:
+                self.zero_shot_client = None
+                print("use fallback rule-based classifier")
+
         # cue config (use class-default unless caller overrides attribute later)
         self.cue_map = self.DEFAULT_CUE_MAP.copy()
         self.use_cues_when = use_cues_when
@@ -104,15 +113,6 @@ class QuizletLoader(BaseLoader):
             self.file_format = self._detect_format()
 
         # Initialize HF zero-shot pipeline if requested and available
-        self._zs_pipeline = None
-        if pipeline is not None:
-            try:
-                self._zs_pipeline = pipeline("zero-shot-classification", model=self.classify_model)
-                print("zero-shot pipeline available")
-            except Exception:
-                # If pipeline initialization fails, fallback to rule-based
-                self._zs_pipeline = None
-                print("use fallback rule-based classifier")
     
     def _detect_format(self) -> str:
         """Detect file format based on extension and content."""
@@ -339,7 +339,8 @@ class QuizletLoader(BaseLoader):
 
     def _classify_card(self, term: str, definition: str) -> Optional[str]:
         # Classify a flashcard into one of the known types, fall back to rule label.
-        # Use rule detector to create optional cue, then call transformer (if available),
+        # Use rule detector to create optional cue, then call the LLM client (if available),
+        text = f"Term: {term}\nDefinition: {definition}".strip()
         labels = [
             "term_definition",
             "fill_in_blank",
@@ -356,8 +357,8 @@ class QuizletLoader(BaseLoader):
             rule_label = "term_definition"
             strong = False
 
-        # If no HF pipeline, just return the rule_label
-        if self._zs_pipeline is None:
+        # If no LLM client, just return the rule_label
+        if self.zero_shot_client is None:
             return rule_label
 
         # prepare candidate phrases (natural language) mapping to short labels
@@ -380,7 +381,7 @@ class QuizletLoader(BaseLoader):
         input_text = (cue + " " + text).strip()
 
         try:
-            result = self._zs_pipeline(input_text, candidate_labels=candidate_phrases, hypothesis_template=self.hypothesis_template)
+            result = self.zero_shot_client.classify(input_text, candidate_labels=candidate_phrases, hypothesis_template=self.hypothesis_template)
             if isinstance(result, dict) and result.get("labels"):
                 labels_out = result.get("labels", [])
                 scores_out = result.get("scores", [])
