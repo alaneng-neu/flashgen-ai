@@ -153,6 +153,8 @@ class QuizletLoader(BaseLoader):
     
     def _load_json_individual(self, data: list):
         """Load each JSON flashcard as a separate document."""
+        # Pre-process to extract valid cards
+        valid_cards = []
         for idx, card in enumerate(data, start=1):
             if not isinstance(card, dict):
                 continue
@@ -163,10 +165,16 @@ class QuizletLoader(BaseLoader):
             if not term and not definition:
                 continue
             
+            valid_cards.append((idx, term, definition))
+            
+        # Batch classify
+        card_tuples = [(t, d) for _, t, d in valid_cards]
+        classifications = self._batch_classify_cards(card_tuples)
+        
+        # Yield documents
+        for (idx, term, definition), flashcard_type in zip(valid_cards, classifications):
             content = f"Term: {term}\nDefinition: {definition}"
-            # Classify the flashcard into a flashcard_type
-            flashcard_type = self._classify_card(term, definition)
-
+            
             metadata = {
                 "source": str(self.file_path),
                 "source_name": self.source_name,
@@ -223,6 +231,8 @@ class QuizletLoader(BaseLoader):
     
     def _load_text_individual(self):
         """Load each text flashcard as a separate document."""
+        valid_cards = []
+        
         with open(self.file_path, "r", encoding=self.encoding) as f:
             for idx, line in enumerate(f, start=1):
                 line = line.strip()
@@ -235,40 +245,37 @@ class QuizletLoader(BaseLoader):
                     term, definition = parts
                     term = term.strip()
                     definition = definition.strip()
-                    
-                    content = f"Term: {term}\nDefinition: {definition}"
-                    # Classify the flashcard into a flashcard_type
-                    flashcard_type = self._classify_card(term, definition)
-
-                    metadata = {
-                        "source": str(self.file_path),
-                        "source_name": self.source_name,
-                        "card_number": idx,
-                        "term": term,
-                        "definition": definition,
-                        "type": "flashcard",
-                        "format": "text",
-                    }
-                    if flashcard_type:
-                        metadata["flashcard_type"] = flashcard_type
-
-                    yield Document(page_content=content, metadata=metadata)
+                    valid_cards.append((idx, term, definition, None)) # None for warning
                 elif len(parts) == 1:
                     # Handle malformed lines
-                    metadata = {
-                        "source": str(self.file_path),
-                        "source_name": self.source_name,
-                        "card_number": idx,
-                        "type": "flashcard",
-                        "format": "text",
-                        "warning": "No delimiter found in line",
-                    }
-                    # Try to classify even malformed lines
-                    flashcard_type = self._classify_card(parts[0].strip(), "")
-                    if flashcard_type:
-                        metadata["flashcard_type"] = flashcard_type
+                    term = parts[0].strip()
+                    definition = ""
+                    valid_cards.append((idx, term, definition, "No delimiter found in line"))
 
-                    yield Document(page_content=parts[0].strip(), metadata=metadata)
+        # Batch classify
+        card_tuples = [(t, d) for _, t, d, _ in valid_cards]
+        classifications = self._batch_classify_cards(card_tuples)
+
+        for (idx, term, definition, warning), flashcard_type in zip(valid_cards, classifications):
+            content = f"Term: {term}\nDefinition: {definition}" if definition else term
+            
+            metadata = {
+                "source": str(self.file_path),
+                "source_name": self.source_name,
+                "card_number": idx,
+                "term": term,
+                "definition": definition,
+                "type": "flashcard",
+                "format": "text",
+            }
+            
+            if warning:
+                metadata["warning"] = warning
+                
+            if flashcard_type:
+                metadata["flashcard_type"] = flashcard_type
+
+            yield Document(page_content=content, metadata=metadata)
     
     def _load_text_combined(self):
         """Load all text flashcards into a single document."""
@@ -336,6 +343,77 @@ class QuizletLoader(BaseLoader):
 
         # Nothing matched
         return None, False
+
+    def _batch_classify_cards(self, cards: List[Tuple[str, str]]) -> List[Optional[str]]:
+        """Batch classify a list of (term, definition) tuples."""
+        results = [None] * len(cards)
+        llm_indices = []
+        llm_inputs = []
+        
+        # 1. Run rule-based classification
+        for i, (term, definition) in enumerate(cards):
+            rule_label, strong = self.rule_label_and_confidence(term, definition)
+            if rule_label is None:
+                rule_label = "term_definition"
+                strong = False
+            
+            results[i] = rule_label
+            
+            # If we have an LLM client and the rule is not strong, prepare for LLM
+            if self.zero_shot_client is not None and not strong:
+                text = f"Term: {term}\nDefinition: {definition}".strip()
+                
+                # Add cue if applicable
+                cue = ""
+                if self.cue_map and rule_label in self.cue_map:
+                    if self.use_cues_when == "always":
+                        cue_val = self.cue_map[rule_label]
+                    elif self.use_cues_when == "strong_only" and strong:
+                        cue_val = self.cue_map[rule_label]
+                    else:
+                        cue_val = None
+
+                    if cue_val:
+                        cue = cue_val[0] if isinstance(cue_val, (list, tuple)) else cue_val
+                
+                input_text = (cue + " " + text).strip()
+                llm_indices.append(i)
+                llm_inputs.append(input_text)
+        
+        # 2. Run batch LLM classification
+        if llm_inputs:
+            label_phrases = self.LABEL_PHRASES
+            candidate_phrases = list(label_phrases.values())
+            inverse_map = {v: k for k, v in label_phrases.items()}
+            
+            try:
+                batch_results = self.zero_shot_client.classify(
+                    llm_inputs, 
+                    candidate_labels=candidate_phrases, 
+                    hypothesis_template=self.hypothesis_template,
+                    batch_size=32
+                )
+                
+                # Handle single result vs list of results
+                if isinstance(batch_results, dict):
+                    batch_results = [batch_results]
+                
+                for idx, result in zip(llm_indices, batch_results):
+                    if isinstance(result, dict) and result.get("labels"):
+                        labels_out = result.get("labels", [])
+                        scores_out = result.get("scores", [])
+                        top_phrase = labels_out[0] if labels_out else None
+                        top_score = scores_out[0] if scores_out else None
+                        
+                        short = inverse_map.get(top_phrase)
+                        if short and top_score is not None and top_score >= self.transformer_confidence_threshold:
+                            results[idx] = short
+            except Exception as e:
+                print(f"Batch classification failed: {e}")
+                # Fallback to rule labels (already in results)
+                pass
+                
+        return results
 
     def _classify_card(self, term: str, definition: str) -> Optional[str]:
         # Classify a flashcard into one of the known types, fall back to rule label.

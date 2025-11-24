@@ -4,8 +4,9 @@ tiny LLMClient wrapper around HF zero-shot pipelines with
 lazy init, a close() method, and a module-level shared factory
 """
 from __future__ import annotations
-from typing import Optional, List, Dict
+from typing import Optional, List, Dict, Union
 from threading import Lock
+import torch
 
 
 class LLMClient:
@@ -31,14 +32,22 @@ class LLMClient:
             try:
                 # local import so module-level import doesn't require transformers
                 from transformers import pipeline
+                
+                # Determine device: 0 for GPU, -1 for CPU
+                device = 0 if torch.cuda.is_available() else -1
+                print(f"Initializing pipeline on device: {device} (GPU available: {torch.cuda.is_available()})")
 
-                self._pipeline = pipeline("zero-shot-classification", model=self.model)
+                self._pipeline = pipeline(
+                    "zero-shot-classification", 
+                    model=self.model, 
+                    device=device
+                )
             except Exception as e:
                 # keep _pipeline as None and raise on classify; callers can catch
                 self._pipeline = None
                 raise RuntimeError(f"failed to initialize zero-shot pipeline: {e}")
 
-    def classify(self, text: str, candidate_labels: List[str], hypothesis_template: str = "This is {}.") -> Dict:
+    def classify(self, text: Union[str, List[str]], candidate_labels: List[str], hypothesis_template: str = "This is {}.", batch_size: int = 32) -> Union[Dict, List[Dict]]:
         # Run zero-shot classification and return the pipeline output.
         if self._pipeline is None:
             self._init_pipeline()
@@ -46,7 +55,7 @@ class LLMClient:
         if self._pipeline is None:
             raise RuntimeError("zero-shot pipeline not available")
 
-        result = self._pipeline(text, candidate_labels=candidate_labels, hypothesis_template=hypothesis_template)
+        result = self._pipeline(text, candidate_labels=candidate_labels, hypothesis_template=hypothesis_template, batch_size=batch_size)
         return result
 
     def close(self) -> None:
@@ -71,8 +80,6 @@ class LLMClient:
 
         # best-effort free CUDA memory
         try:
-            import torch
-
             if torch.cuda.is_available():
                 try:
                     torch.cuda.empty_cache()
