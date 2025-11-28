@@ -1,8 +1,11 @@
-from typing import Optional
+from typing import Optional, List, Tuple
 from pathlib import Path
 import json
 from langchain_core.document_loaders import BaseLoader
 from langchain_core.documents import Document
+
+# Use a small LLM client wrapper for zero-shot classification (lazy init)
+from llm import LLMClient, get_shared_zero_shot
 
 
 class QuizletLoader(BaseLoader):
@@ -17,6 +20,27 @@ class QuizletLoader(BaseLoader):
     Text format: term\tdefinition (one per line)
     """
     
+    # Class-level canonical mappings so callers (and experiments) can reuse them
+    LABEL_PHRASES = {
+        "term_definition": "a term-definition pair",
+        "fill_in_blank": "a fill-in-the-blank question",
+        "list_stages": "a list of stages or steps",
+        "question_to_answer": "a question expecting an answer",
+        "example_to_concept": "an example illustrating a concept",
+        "multiple_choice": "a multiple-choice question",
+        "true_false": "a true or false question",
+    }
+
+    DEFAULT_CUE_MAP = {
+        "multiple_choice": ["Multiple choice question:"],
+        "fill_in_blank": ["Fill-in-the-blank question:"],
+        "list_stages": ["A list of stages or steps:"],
+        "question_to_answer": ["A question expecting an answer:"],
+        "example_to_concept": ["An example illustrating a concept:"],
+        "true_false": ["A true or false question:"],
+        "term_definition": ["A term-definition pair:"],
+    }
+
     def __init__(
         self,
         file_path: str,
@@ -24,7 +48,18 @@ class QuizletLoader(BaseLoader):
         delimiter: str = "\t",
         encoding: str = "utf-8",
         combine_cards: bool = False,
-        source_name: Optional[str] = None
+        source_name: Optional[str] = None,
+        # loader will use the HF zero-shot pipeline with 'facebook/bart-large-mni' by default
+        classify_model: Optional[str] = None,
+        # optional injected LLM client for dependency injection / testing
+        zero_shot_client: Optional[LLMClient] = None,
+        # threshold for accepting the transformer's top prediction when rule is not strong
+        transformer_confidence_threshold: float = 0.5,
+        # when to use cues: 'strong_only' (default) uses cues only for strong rule matches,
+        # 'always' will always include a cue when available, 'never' disables cueing
+        use_cues_when: str = "strong_only",
+        # hypothesis template for HF zero-shot (if used)
+        hypothesis_template: str = "This is {}.",
     ) -> None:
         """
         Initialize the loader.
@@ -43,10 +78,29 @@ class QuizletLoader(BaseLoader):
         self.encoding = encoding
         self.combine_cards = combine_cards
         self.source_name = source_name or self.file_path.name
+        self.classify_model = classify_model or "MoritzLaurer/deberta-v3-large-zeroshot-v2.0"
+        self.transformer_confidence_threshold = float(transformer_confidence_threshold)
+        # optionally injected or shared zero-shot client (lazy init occurs inside client)
+        self.zero_shot_client = zero_shot_client
+        if self.zero_shot_client is None:
+            try:
+                self.zero_shot_client = get_shared_zero_shot(self.classify_model)
+                # note: actual model weights are loaded lazily by LLMClient.classify
+                print("zero-shot client configured (pipeline will init lazily)")
+            except Exception:
+                self.zero_shot_client = None
+                print("use fallback rule-based classifier")
+
+        # cue config (use class-default unless caller overrides attribute later)
+        self.cue_map = self.DEFAULT_CUE_MAP.copy()
+        self.use_cues_when = use_cues_when
+        self.hypothesis_template = hypothesis_template
         
         # Auto-detect format if needed
         if self.file_format == "auto":
             self.file_format = self._detect_format()
+
+        # Initialize HF zero-shot pipeline if requested and available
     
     def _detect_format(self) -> str:
         """Detect file format based on extension and content."""
@@ -87,6 +141,8 @@ class QuizletLoader(BaseLoader):
     
     def _load_json_individual(self, data: list):
         """Load each JSON flashcard as a separate document."""
+        # Pre-process to extract valid cards
+        valid_cards = []
         for idx, card in enumerate(data, start=1):
             if not isinstance(card, dict):
                 continue
@@ -97,20 +153,29 @@ class QuizletLoader(BaseLoader):
             if not term and not definition:
                 continue
             
+            valid_cards.append((idx, term, definition))
+            
+        # Batch classify
+        card_tuples = [(t, d) for _, t, d in valid_cards]
+        classifications = self._batch_classify_cards(card_tuples)
+        
+        # Yield documents
+        for (idx, term, definition), flashcard_type in zip(valid_cards, classifications):
             content = f"Term: {term}\nDefinition: {definition}"
             
-            yield Document(
-                page_content=content,
-                metadata={
-                    "source": str(self.file_path),
-                    "source_name": self.source_name,
-                    "card_number": idx,
-                    "term": term,
-                    "definition": definition,
-                    "type": "flashcard",
-                    "format": "json"
-                }
-            )
+            metadata = {
+                "source": str(self.file_path),
+                "source_name": self.source_name,
+                "card_number": idx,
+                "term": term,
+                "definition": definition,
+                "type": "flashcard",
+                "format": "json",
+            }
+            if flashcard_type:
+                metadata["flashcard_type"] = flashcard_type
+
+            yield Document(page_content=content, metadata=metadata)
     
     def _load_json_combined(self, data: list):
         """Load all JSON flashcards into a single document."""
@@ -154,6 +219,8 @@ class QuizletLoader(BaseLoader):
     
     def _load_text_individual(self):
         """Load each text flashcard as a separate document."""
+        valid_cards = []
+        
         with open(self.file_path, "r", encoding=self.encoding) as f:
             for idx, line in enumerate(f, start=1):
                 line = line.strip()
@@ -166,34 +233,37 @@ class QuizletLoader(BaseLoader):
                     term, definition = parts
                     term = term.strip()
                     definition = definition.strip()
-                    
-                    content = f"Term: {term}\nDefinition: {definition}"
-                    
-                    yield Document(
-                        page_content=content,
-                        metadata={
-                            "source": str(self.file_path),
-                            "source_name": self.source_name,
-                            "card_number": idx,
-                            "term": term,
-                            "definition": definition,
-                            "type": "flashcard",
-                            "format": "text"
-                        }
-                    )
+                    valid_cards.append((idx, term, definition, None)) # None for warning
                 elif len(parts) == 1:
                     # Handle malformed lines
-                    yield Document(
-                        page_content=parts[0].strip(),
-                        metadata={
-                            "source": str(self.file_path),
-                            "source_name": self.source_name,
-                            "card_number": idx,
-                            "type": "flashcard",
-                            "format": "text",
-                            "warning": "No delimiter found in line"
-                        }
-                    )
+                    term = parts[0].strip()
+                    definition = ""
+                    valid_cards.append((idx, term, definition, "No delimiter found in line"))
+
+        # Batch classify
+        card_tuples = [(t, d) for _, t, d, _ in valid_cards]
+        classifications = self._batch_classify_cards(card_tuples)
+
+        for (idx, term, definition, warning), flashcard_type in zip(valid_cards, classifications):
+            content = f"Term: {term}\nDefinition: {definition}" if definition else term
+            
+            metadata = {
+                "source": str(self.file_path),
+                "source_name": self.source_name,
+                "card_number": idx,
+                "term": term,
+                "definition": definition,
+                "type": "flashcard",
+                "format": "text",
+            }
+            
+            if warning:
+                metadata["warning"] = warning
+                
+            if flashcard_type:
+                metadata["flashcard_type"] = flashcard_type
+
+            yield Document(page_content=content, metadata=metadata)
     
     def _load_text_combined(self):
         """Load all text flashcards into a single document."""
@@ -230,3 +300,172 @@ class QuizletLoader(BaseLoader):
                 "format": "text"
             }
         )
+        
+    def rule_label_and_confidence(self, term: str, definition: str) -> Tuple[Optional[str], bool]:
+        """Rule-based detector returning (label, strong_confidence).
+        Strong indicates a high-confidence rule match where cues should be used.
+        Uses simple heuristics (underscores/blanks, enumerated options, semicolons,
+        question forms, example markers, and true/false indicators).
+        """
+        txt = f"{term} {definition}".lower()
+
+        # Strong signals are run first
+        if "___" in term or "fill in the" in txt or "fill-in" in txt:
+            return "fill_in_blank", True
+        if any(tok in txt for tok in ["a)", "b)", "c)", "(a)", "(b)", "(c)", "1.", "2.", "3.", "a.", "b.", "c."]) and ("?" not in definition):
+            return "multiple_choice", True
+        if any(word in txt for word in ["stages", "phases", "list"]):
+            return "list_stages", True
+        if "true or false" in txt or "true/false" in txt or ("true" in txt and "false" in txt):
+            return "true_false", True
+        if "example" in txt or "instance" in txt or "e.g." in txt:
+            return "example_to_concept", True
+        if any(word in txt for word in ["what", "which", "how", "why", "when", "where", "?"]):
+            return "question_to_answer", True
+        if txt.count(";") >= 2 or any(word in txt for word in ["first", "then", "next", "step"]):
+            return "list_stages", False
+
+        # Default when both term and definition exist
+        if term.strip() and definition.strip():
+            return "term_definition", False
+
+        # Nothing matched
+        return None, False
+
+    def _batch_classify_cards(self, cards: List[Tuple[str, str]]) -> List[Optional[str]]:
+        """Batch classify a list of (term, definition) tuples."""
+        results = [None] * len(cards)
+        llm_indices = []
+        llm_inputs = []
+        
+        # 1. Run rule-based classification
+        for i, (term, definition) in enumerate(cards):
+            rule_label, strong = self.rule_label_and_confidence(term, definition)
+            if rule_label is None:
+                rule_label = "term_definition"
+                strong = False
+            
+            results[i] = rule_label
+            
+            # If we have an LLM client and the rule is not strong, prepare for LLM
+            if self.zero_shot_client is not None and not strong:
+                text = f"Term: {term}\nDefinition: {definition}".strip()
+                
+                # Add cue if applicable
+                cue = ""
+                if self.cue_map and rule_label in self.cue_map:
+                    if self.use_cues_when == "always":
+                        cue_val = self.cue_map[rule_label]
+                    elif self.use_cues_when == "strong_only" and strong:
+                        cue_val = self.cue_map[rule_label]
+                    else:
+                        cue_val = None
+
+                    if cue_val:
+                        cue = cue_val[0] if isinstance(cue_val, (list, tuple)) else cue_val
+                
+                input_text = (cue + " " + text).strip()
+                llm_indices.append(i)
+                llm_inputs.append(input_text)
+        
+        # 2. Run batch LLM classification
+        if llm_inputs:
+            label_phrases = self.LABEL_PHRASES
+            candidate_phrases = list(label_phrases.values())
+            inverse_map = {v: k for k, v in label_phrases.items()}
+            
+            try:
+                batch_results = self.zero_shot_client.classify(
+                    llm_inputs, 
+                    candidate_labels=candidate_phrases, 
+                    hypothesis_template=self.hypothesis_template,
+                    batch_size=32
+                )
+                
+                # Handle single result vs list of results
+                if isinstance(batch_results, dict):
+                    batch_results = [batch_results]
+                
+                for idx, result in zip(llm_indices, batch_results):
+                    if isinstance(result, dict) and result.get("labels"):
+                        labels_out = result.get("labels", [])
+                        scores_out = result.get("scores", [])
+                        top_phrase = labels_out[0] if labels_out else None
+                        top_score = scores_out[0] if scores_out else None
+                        
+                        short = inverse_map.get(top_phrase)
+                        if short and top_score is not None and top_score >= self.transformer_confidence_threshold:
+                            results[idx] = short
+            except Exception as e:
+                print(f"Batch classification failed: {e}")
+                # Fallback to rule labels (already in results)
+                pass
+                
+        return results
+
+    def _classify_card(self, term: str, definition: str) -> Optional[str]:
+        # Classify a flashcard into one of the known types, fall back to rule label.
+        # Use rule detector to create optional cue, then call the LLM client (if available),
+        text = f"Term: {term}\nDefinition: {definition}".strip()
+        labels = [
+            "term_definition",
+            "fill_in_blank",
+            "list_stages",
+            "question_to_answer",
+            "example_to_concept",
+            "multiple_choice",
+            "true_false",
+        ]
+
+        rule_label, strong = self.rule_label_and_confidence(term, definition)
+        # ensure we always assign a type, default to term_definition when unknown
+        if rule_label is None:
+            rule_label = "term_definition"
+            strong = False
+
+        # If no LLM client, just return the rule_label
+        if self.zero_shot_client is None:
+            return rule_label
+
+        # prepare candidate phrases (natural language) mapping to short labels
+        label_phrases = self.LABEL_PHRASES
+        candidate_phrases = list(label_phrases.values())
+
+        # decide whether to include a cue (always prepend)
+        cue = ""
+        if self.cue_map and rule_label in self.cue_map:
+            if self.use_cues_when == "always":
+                cue_val = self.cue_map[rule_label]
+            elif self.use_cues_when == "strong_only" and strong:
+                cue_val = self.cue_map[rule_label]
+            else:
+                cue_val = None
+
+            if cue_val:
+                cue = cue_val[0] if isinstance(cue_val, (list, tuple)) else cue_val
+
+        input_text = (cue + " " + text).strip()
+
+        try:
+            result = self.zero_shot_client.classify(input_text, candidate_labels=candidate_phrases, hypothesis_template=self.hypothesis_template)
+            if isinstance(result, dict) and result.get("labels"):
+                labels_out = result.get("labels", [])
+                scores_out = result.get("scores", [])
+                top_phrase = labels_out[0] if labels_out else None
+                top_score = scores_out[0] if scores_out else None
+                inverse_map = {v: k for k, v in label_phrases.items()}
+                short = inverse_map.get(top_phrase)
+                if short:
+                    # prefer rule when rule detector is strong
+                    if strong:
+                        return rule_label
+                    # otherwise accept transformer's prediction only if above threshold
+                    if top_score is not None and top_score >= self.transformer_confidence_threshold:
+                        return short
+                    return rule_label
+        except Exception:
+            # fall back!
+            return rule_label
+
+        # if transformer didn't return a mapped short label, return the rule label
+        return rule_label

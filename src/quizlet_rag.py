@@ -1,4 +1,5 @@
 from typing import List, Optional
+import torch
 from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_chroma import Chroma
@@ -33,7 +34,17 @@ class QuizletRAGPipeline:
         
     def _setup_embeddings(self, model_name: str):
         """Setup embedding model."""
-        return HuggingFaceEmbeddings(model_name=model_name)
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        print(f"Using device: {device}")
+        
+        model_kwargs = {'device': device}
+        encode_kwargs = {'normalize_embeddings': True, 'batch_size': 32}
+        
+        return HuggingFaceEmbeddings(
+            model_name=model_name,
+            model_kwargs=model_kwargs,
+            encode_kwargs=encode_kwargs
+        )
     
     def load_flashcards(
         self,
