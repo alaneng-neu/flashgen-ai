@@ -83,21 +83,32 @@ class LLMClient:
             if text:
                 full_text += f"\n--- Content from {file['filename']} ---\n{text}\n"
         
-        if rag_context:
-            full_text += f"\n--- Additional Context (RAG) ---\n{rag_context}\n"
-            
         if not full_text.strip():
             # If no text could be extracted, return empty set or handle error
             return FlashcardSet(flashcards=[])
 
         # Construct the prompt
-        prompt = f"Generate {num_flashcards} flashcards based on the following content."
+        prompt = (
+            f"Create a set of exactly {num_flashcards} flashcards based on the 'Main Content' provided below. "
+            f"It is strictly required to generate exactly {num_flashcards} cards. "
+            "Ensure the cards cover a diverse range of concepts from the text."
+        )
+
+        if rag_context:
+            prompt += (
+                "\n\n--- Reference Context (RAG) ---\n"
+                "The following are EXAMPLES of similar flashcards or relevant context. "
+                "Use them to understand the style and depth required, but DO NOT just copy them. "
+                "You must generate NEW content from the Main Content section.\n"
+                f"{rag_context}\n"
+                "-----------------------------------\n"
+            )
         
         if flashcard_types:
             types_str = ", ".join([t.value for t in flashcard_types])
             prompt += f" Please use the following flashcard types: {types_str}."
             
-        prompt += f"\n\nContent:\n{full_text[:50000]}" # Truncate if too long
+        prompt += f"\n\n--- Main Content ---\n{full_text[:50000]}" # Truncate if too long
         
         base_system_prompt = "You are an expert educational content creator. Your goal is to create high-quality flashcards that help students learn effectively."
         if system_prompt:
@@ -172,13 +183,16 @@ class LLMClient:
             return "This topic focuses on general concepts."
 
         prompt = (
-            "Analyze the following educational materials. "
-            "Identify the question styles, difficulty level, format patterns, and key concepts. "
-            "Generate a system prompt that describes how to create flashcards matching this style. "
-            "The output should be a concise paragraph instructing an LLM on how to generate flashcards for this specific topic. "
-            "Do NOT include specific content from the files in the prompt, but rather describe the TYPES of questions and concepts to focus on. "
-            "For example, instead of saying 'Ask about the mitochondria', say 'Ask about cell organelles and their functions'. "
-            "Ensure the prompt is general enough to apply to new material within the same subject area."
+            "Analyze the provided educational materials to understand the assessment style and question formats. "
+            "Generate a system prompt that instructs an LLM on the *style* and *format* of flashcards to create for this course. "
+            "Your output must be a continuous paragraph, NOT a numbered list. "
+            "Do NOT include specific content examples or topics from the files. "
+            "Instead, focus on the *nature* of the questions. For example: "
+            "- Does the course prefer scenario-based application questions? "
+            "- Does it focus on memorizing precise definitions? "
+            "- Does it ask for code analysis or mathematical derivations? "
+            "- Does it use True/False or Fill-in-the-blank formats? "
+            "The generated system prompt should guide an LLM to match this specific assessment style when generating new flashcards from future content."
         )
         
         messages = [
@@ -201,6 +215,7 @@ class LLMClient:
         self, 
         file_contents: List[dict], 
         system_prompt: Optional[str] = None,
+        rag_context: Optional[str] = None,
         num_flashcards: int = 10
     ) -> List[dict]:
         """Async wrapper that returns dicts ready for database insertion"""
@@ -208,7 +223,12 @@ class LLMClient:
         # we might want to run this in a threadpool if it blocks too long.
         # For now, we'll just call it directly.
         
-        flashcard_set = self.generate_flashcards(file_contents, system_prompt, num_flashcards=num_flashcards)
+        flashcard_set = self.generate_flashcards(
+            file_contents, 
+            system_prompt, 
+            rag_context=rag_context,
+            num_flashcards=num_flashcards
+        )
         
         return [fc.model_dump() for fc in flashcard_set.flashcards]
 
