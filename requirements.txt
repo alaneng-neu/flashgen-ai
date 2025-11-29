@@ -1,16 +1,19 @@
 # preprocessing requirements
-langchain
-langchain-chroma
-langchain-huggingface
-sentence-transformers
-chromadb
-langchain_text_splitters
-transformers
+langchain==1.1.0
+langchain-chroma==1.0.0
+langchain-huggingface==1.1.0
+sentence-transformers==5.1.2
+chromadb==1.3.5
+langchain_text_splitters==1.0.0
+transformers==4.57.3
 # api requirements
-uvicorn
-fastapi[standard]
-sqlmodel
-python-dotenv
-python-multipart
-alembic
-psycopg2-binary
+uvicorn==0.38.0
+fastapi[standard]==0.122.0
+sqlmodel==0.0.27
+python-dotenv==1.2.1
+python-multipart==0.0.20
+alembic==1.17.2
+psycopg2-binary==2.9.11
+ollama==0.6.1
+instructor==1.13.0
+pymupdf==1.26.6

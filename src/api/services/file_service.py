@@ -1,11 +1,12 @@
 from sqlmodel import Session, select
-from api.models import UploadedFile
+from api.models import UploadedFile, Topic
 from fastapi import UploadFile
 from typing import List
 from uuid import UUID
 import os
 import shutil
 from pathlib import Path
+from api.llm_client import get_client
 
 
 # Use absolute path relative to api folder
@@ -52,9 +53,32 @@ async def upload_files(
         session.add(db_file)
         uploaded_files.append(db_file)
     
-    # TODO: Generate system prompt based on uploaded files
-    # Example: Analyze file contents, extract key concepts, generate prompt
-    # topic.system_prompt = generate_system_prompt(uploaded_files)
+    # Generate system prompt based on uploaded files
+    try:
+        # Get all files for the topic, including the newly uploaded ones
+        all_topic_files = get_topic_files(session, topic_id)
+        
+        file_contents = []
+        for db_file in all_topic_files:
+            with open(db_file.file_path, "rb") as f:
+                content = f.read()
+                file_contents.append({
+                    "filename": db_file.file_name,
+                    "content_type": "application/pdf" if db_file.file_name.endswith(".pdf") else "text/plain",
+                    "content": content
+                })
+        
+        client = get_client()
+        system_prompt = client.generate_topic_system_prompt(file_contents)
+        
+        # Update topic
+        topic = session.get(Topic, topic_id)
+        if topic:
+            topic.system_prompt = system_prompt
+            session.add(topic)
+            
+    except Exception as e:
+        print(f"Error generating system prompt: {e}")
     
     session.commit()
     

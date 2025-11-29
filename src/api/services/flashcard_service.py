@@ -1,7 +1,9 @@
 from sqlmodel import Session, select
-from api.models import FlashcardSet, Flashcard, FlashcardTypeEnum
+from api.models import FlashcardSet, Flashcard
+from api.schemas import FlashcardSetCreate
 from typing import List
 from uuid import UUID
+from api.llm_client import get_client
 
 
 def get_flashcard_set(session: Session, set_id: UUID) -> FlashcardSet:
@@ -22,36 +24,17 @@ async def generate_flashcards(
     session: Session,
     flashcard_set_id: UUID,
     file_contents: List[dict],
-    system_prompt: str = None
+    system_prompt: str = None,
+    num_flashcards: int = 10
 ) -> List[Flashcard]:
     """Generate flashcards from file contents using AI/LLM"""
     
-    # TODO: Generate flashcards using:
-    # - system_prompt (context about the topic) -> from topic.system_prompt
-    # - file_contents (list of dicts with filename, content_type, and content bytes)
-    # - AI/LLM integration to parse content and create flashcards
-    #
-    # Example pseudocode:
-    # generated_flashcards = generate_with_llm(
-    #     system_prompt=system_prompt,
-    #     files=file_contents,
-    #     num_flashcards=10
-    # )
-    
-    # Placeholder: Create sample flashcards for demonstration
-    # Replace this with actual generation logic
-    generated_flashcards = [
-        {
-            "term": "Sample Term 1",
-            "definition": "Sample Definition 1",
-            "flashcard_type": FlashcardTypeEnum.TERM_DEFINITION
-        },
-        {
-            "term": "Sample Term 2",
-            "definition": "Sample Definition 2",
-            "flashcard_type": FlashcardTypeEnum.TERM_DEFINITION
-        }
-    ]
+    client = get_client()
+    generated_flashcards = await client.generate_flashcards_from_files(
+        file_contents=file_contents,
+        system_prompt=system_prompt,
+        num_flashcards=num_flashcards
+    )
     
     # Save generated flashcards to database
     db_flashcards = []
@@ -78,3 +61,12 @@ def get_set_flashcards(session: Session, set_id: UUID) -> List[Flashcard]:
     statement = select(Flashcard).where(Flashcard.flashcard_set_id == set_id)
     flashcards = session.exec(statement).all()
     return flashcards
+
+def create_flashcard_set(session: Session, topic_id: UUID, set_data: FlashcardSetCreate) -> FlashcardSet:
+    """Create a new flashcard set"""
+    db_set = FlashcardSet.model_validate(set_data)
+    db_set.topic_id = topic_id
+    session.add(db_set)
+    session.commit()
+    session.refresh(db_set)
+    return db_set

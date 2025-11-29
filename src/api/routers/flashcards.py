@@ -24,6 +24,7 @@ async def generate_flashcard_set(
     topic_id: UUID,
     user_id: int = Form(...),
     title: str = Form(...),
+    num_flashcards: int = Form(10),
     files: List[UploadFile] = File(...),
     session: Session = Depends(get_session)
 ):
@@ -37,7 +38,7 @@ async def generate_flashcard_set(
         raise HTTPException(status_code=403, detail="Topic does not belong to user")
     
     # Create the flashcard set
-    flashcard_set_data = FlashcardSetCreate(title=title)
+    flashcard_set_data = FlashcardSetCreate(title=title, topic_id=topic_id)
     db_set = flashcard_service.create_flashcard_set(session, topic_id, flashcard_set_data)
     
     # Read file contents into memory
@@ -57,7 +58,8 @@ async def generate_flashcard_set(
         session,
         db_set.id,
         file_contents,
-        system_prompt=topic.system_prompt
+        system_prompt=topic.system_prompt,
+        num_flashcards=num_flashcards
     )
     
     return flashcards
