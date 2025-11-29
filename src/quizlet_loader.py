@@ -5,7 +5,7 @@ from langchain_core.document_loaders import BaseLoader
 from langchain_core.documents import Document
 
 # Use a small LLM client wrapper for zero-shot classification (lazy init)
-from llm import LLMClient, get_shared_zero_shot
+from llm_classifier import LLMClient, get_shared_zero_shot
 
 
 class QuizletLoader(BaseLoader):

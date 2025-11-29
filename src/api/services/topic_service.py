@@ -1,6 +1,6 @@
 from sqlmodel import Session, select
-from models import Topic
-from schemas import TopicCreate
+from api.models import Topic
+from api.schemas import TopicCreate
 from fastapi import HTTPException
 from typing import List
 from uuid import UUID

@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, status
 from sqlmodel import Session
-from database import get_session
-from schemas import UserCreate, UserRead
-from services import user_service
+from api.database import get_session
+from api.schemas import UserCreate, UserRead
+from api.services import user_service
 
 
 router = APIRouter(prefix="/users", tags=["users"])

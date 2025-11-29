@@ -1,10 +1,13 @@
 from sqlmodel import create_engine, SQLModel, Session
 from typing import Generator
 import os
+from pathlib import Path
 from dotenv import load_dotenv
 
 
-load_dotenv()
+# Load .env from the api directory
+env_path = Path(__file__).parent / ".env"
+load_dotenv(env_path)
 
 
 DATABASE_URL = os.getenv("DATABASE_URL")

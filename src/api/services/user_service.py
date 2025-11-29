@@ -1,6 +1,6 @@
 from sqlmodel import Session, select
-from models import User
-from schemas import UserCreate
+from api.models import User
+from api.schemas import UserCreate
 from fastapi import HTTPException
 
 

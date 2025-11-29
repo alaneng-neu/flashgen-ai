@@ -1,10 +1,16 @@
 import sqlmodel
+import sys
+from pathlib import Path
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
+
+# Add src/ to sys.path so we can import api.* modules
+src_path = Path(__file__).resolve().parent.parent.parent
+sys.path.insert(0, str(src_path))
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -19,7 +25,7 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-from models import SQLModel
+from api.models import SQLModel
 target_metadata = SQLModel.metadata
 
 # other values from the config, defined by the needs of env.py,

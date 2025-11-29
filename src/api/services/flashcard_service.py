@@ -1,6 +1,5 @@
 from sqlmodel import Session, select
-from models import FlashcardSet, Flashcard, FlashcardTypeEnum
-from schemas import FlashcardSetCreate
+from api.models import FlashcardSet, Flashcard, FlashcardTypeEnum
 from typing import List
 from uuid import UUID
 

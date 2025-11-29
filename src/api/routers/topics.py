@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, status
 from sqlmodel import Session
-from database import get_session
-from schemas import TopicCreate, TopicRead
-from services import user_service, topic_service
+from api.database import get_session
+from api.schemas import TopicCreate, TopicRead
+from api.services import user_service, topic_service
 from typing import List
 from uuid import UUID
 

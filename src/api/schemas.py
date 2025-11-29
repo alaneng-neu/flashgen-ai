@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from models import UserBase, TopicBase, FlashcardSetBase, FlashcardBase, UploadedFileBase
+from api.models import UserBase, TopicBase, FlashcardSetBase, FlashcardBase, UploadedFileBase
 from uuid import UUID
 from datetime import datetime
 

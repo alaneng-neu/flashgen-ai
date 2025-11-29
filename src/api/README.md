@@ -52,15 +52,16 @@ import sqlmodel  # Add this import at the top
 
 # ... other imports ...
 
-from models import SQLModel
+from api.models import SQLModel
 target_metadata = SQLModel.metadata
 ```
 
 Create and run migration:
 
 ```bash
-# Generate migration
-alembic revision --autogenerate -m "Initial migration"
+# Generate migration (run from src/ directory)
+cd src
+alembic -c api/alembic.ini revision --autogenerate -m "Initial migration"
 ```
 
 Before running the migration, open the generated migration file in `migrations/versions/` and add `import sqlmodel` at the top with the other imports:
@@ -83,13 +84,19 @@ import sqlmodel  # ADD THIS LINE
 Now apply the migration:
 
 ```bash
-alembic upgrade head
+# Run from src/ directory
+alembic -c api/alembic.ini upgrade head
 ```
 
 ### 5. Run the API
 
+**From the `src/` directory** (recommended - allows importing from quizlet_rag, etc.):
+
 ```bash
-uvicorn main:app --reload
+cd src
+python run_api.py
+# OR
+uvicorn api.main:app --reload
 ```
 
 API will be available at `http://localhost:8000`

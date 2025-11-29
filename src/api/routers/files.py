@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File, Form
 from sqlmodel import Session
-from database import get_session
-from schemas import UploadedFileRead
-from services import user_service, topic_service, file_service
+from api.database import get_session
+from api.schemas import UploadedFileRead
+from api.services import user_service, topic_service, file_service
 from typing import List
 from uuid import UUID
 

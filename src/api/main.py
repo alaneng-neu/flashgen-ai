@@ -1,13 +1,14 @@
 from fastapi import FastAPI
-from routers import users, topics, files, flashcards
+from api.routers import users, topics, files, flashcards
 import os
 from pathlib import Path
 
 
 app = FastAPI(title="Flashcard API")
 
-# Create upload directory
-UPLOAD_DIR = os.getenv("UPLOAD_DIR", "./uploads")
+# Create upload directory (relative to api folder)
+API_DIR = Path(__file__).parent
+UPLOAD_DIR = os.getenv("UPLOAD_DIR", str(API_DIR / "uploads"))
 Path(UPLOAD_DIR).mkdir(parents=True, exist_ok=True)
 
 # App routers

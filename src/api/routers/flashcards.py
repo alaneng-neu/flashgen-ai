@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File, Form
 from sqlmodel import Session
-from database import get_session
-from schemas import FlashcardSetCreate, FlashcardSetRead, FlashcardRead
-from services import user_service, topic_service, flashcard_service
+from api.database import get_session
+from api.schemas import FlashcardSetCreate, FlashcardSetRead, FlashcardRead
+from api.services import user_service, topic_service, flashcard_service
 from typing import List
 from uuid import UUID
 

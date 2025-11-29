@@ -1,5 +1,5 @@
 from sqlmodel import Session, select
-from models import UploadedFile
+from api.models import UploadedFile
 from fastapi import UploadFile
 from typing import List
 from uuid import UUID
@@ -8,7 +8,9 @@ import shutil
 from pathlib import Path
 
 
-UPLOAD_DIR = os.getenv("UPLOAD_DIR", "./uploads")
+# Use absolute path relative to api folder
+API_DIR = Path(__file__).parent.parent
+UPLOAD_DIR = os.getenv("UPLOAD_DIR", str(API_DIR / "uploads"))
 
 async def upload_files(
     session: Session,
