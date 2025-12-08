@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flashcard Generator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#6366f1',
+            secondary: '#8b5cf6',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .flip-card { perspective: 1000px; }
+    .flip-card-inner { transition: transform 0.6s; transform-style: preserve-3d; }
+    .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
+    .flip-card-front, .flip-card-back { backface-visibility: hidden; }
+    .flip-card-back { transform: rotateY(180deg); }
+    .sidebar::-webkit-scrollbar, .main-content::-webkit-scrollbar { width: 6px; }
+    .sidebar::-webkit-scrollbar-thumb, .main-content::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 3px; }
+  </style>
+</head>
+<body class="bg-gray-900 text-gray-100 h-screen flex flex-col">
+  <!-- Header -->
+  <header class="bg-gray-800 border-b border-gray-700 px-6 py-4 flex items-center justify-between shrink-0">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center">
+        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+        </svg>
+      </div>
+      <h1 class="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">FlashGen AI</h1>
+    </div>
+    <div class="flex items-center gap-4">
+      <div class="flex items-center gap-2 bg-gray-700/50 rounded-lg px-3 py-2">
+        <span class="text-sm text-gray-400">User ID:</span>
+        <input type="number" id="userId" class="bg-gray-600 w-20 text-center focus:outline-none focus:ring-2 focus:ring-primary text-white font-medium rounded px-2 py-1" placeholder="—" onkeydown="if(event.key==='Enter')loadUserById()">
+        <button onclick="loadUserById()" class="bg-gray-600 hover:bg-gray-500 px-3 py-1 rounded text-sm transition">Load</button>
+        <span id="username" class="text-sm text-primary font-medium"></span>
+      </div>
+      <button onclick="openUserModal()" class="bg-primary hover:bg-primary/80 px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+        </svg>
+        New User
+      </button>
+    </div>
+  </header>
+
+  <div class="flex flex-1 overflow-hidden">
+    <!-- Sidebar -->
+    <aside class="w-72 bg-gray-800 border-r border-gray-700 flex flex-col shrink-0">
+      <div class="p-4 border-b border-gray-700">
+        <button onclick="openTopicModal()" class="w-full bg-gray-700 hover:bg-gray-600 px-4 py-3 rounded-lg text-sm font-medium transition flex items-center justify-center gap-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+          </svg>
+          New Topic
+        </button>
+      </div>
+      <div class="flex-1 overflow-y-auto sidebar p-3 space-y-2" id="topicsList">
+        <p class="text-gray-500 text-sm text-center py-8">Create a user to get started</p>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 overflow-y-auto main-content">
+      <div id="welcomeScreen" class="h-full flex items-center justify-center">
+        <div class="text-center">
+          <div class="w-24 h-24 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg class="w-12 h-12 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+            </svg>
+          </div>
+          <h2 class="text-2xl font-bold text-gray-400 mb-2">Welcome to FlashGen AI</h2>
+          <p class="text-gray-500">Create a user and select a topic to get started</p>
+        </div>
+      </div>
+
+      <div id="topicContent" class="hidden p-6">
+        <div class="mb-6">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-2xl font-bold" id="topicTitle">Topic Name</h2>
+            <div class="flex gap-2">
+              <button onclick="openUploadModal()" class="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+                </svg>
+                Upload Files
+              </button>
+              <button onclick="openGenerateModal()" class="bg-primary hover:bg-primary/80 px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                </svg>
+                Generate Flashcards
+              </button>
+            </div>
+          </div>
+          
+          <!-- System Prompt -->
+          <div id="systemPromptSection" class="hidden mb-6">
+            <div class="bg-gray-800 rounded-xl p-4 border border-gray-700">
+              <h3 class="text-sm font-medium text-gray-400 mb-2 flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                </svg>
+                AI-Generated Context
+              </h3>
+              <p id="systemPromptText" class="text-gray-300 text-sm leading-relaxed"></p>
+            </div>
+          </div>
+
+          <!-- Files Section -->
+          <div class="mb-6">
+            <h3 class="text-sm font-medium text-gray-400 mb-3">Uploaded Files</h3>
+            <div id="filesList" class="flex flex-wrap gap-2">
+              <p class="text-gray-500 text-sm">No files uploaded yet</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Flashcard Sets -->
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Flashcard Sets</h3>
+          <div id="flashcardSetsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <p class="text-gray-500 text-sm col-span-full text-center py-8">No flashcard sets yet. Generate some!</p>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- User Modal -->
+  <div id="userModal" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+    <div class="bg-gray-800 rounded-2xl p-6 w-full max-w-md border border-gray-700">
+      <h3 class="text-xl font-bold mb-4">Create New User</h3>
+      <input type="text" id="newUsername" placeholder="Enter username" class="w-full bg-gray-700 rounded-lg px-4 py-3 mb-4 focus:outline-none focus:ring-2 focus:ring-primary">
+      <div class="flex gap-3">
+        <button onclick="closeUserModal()" class="flex-1 bg-gray-700 hover:bg-gray-600 py-3 rounded-lg font-medium transition">Cancel</button>
+        <button onclick="createUser()" class="flex-1 bg-primary hover:bg-primary/80 py-3 rounded-lg font-medium transition">Create</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Topic Modal -->
+  <div id="topicModal" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+    <div class="bg-gray-800 rounded-2xl p-6 w-full max-w-md border border-gray-700">
+      <h3 class="text-xl font-bold mb-4">Create New Topic</h3>
+      <input type="text" id="newTopicTitle" placeholder="Enter topic title" class="w-full bg-gray-700 rounded-lg px-4 py-3 mb-4 focus:outline-none focus:ring-2 focus:ring-primary">
+      <div class="flex gap-3">
+        <button onclick="closeTopicModal()" class="flex-1 bg-gray-700 hover:bg-gray-600 py-3 rounded-lg font-medium transition">Cancel</button>
+        <button onclick="createTopic()" class="flex-1 bg-primary hover:bg-primary/80 py-3 rounded-lg font-medium transition">Create</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upload Modal -->
+  <div id="uploadModal" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+    <div class="bg-gray-800 rounded-2xl p-6 w-full max-w-md border border-gray-700">
+      <h3 class="text-xl font-bold mb-4">Upload Files</h3>
+      <div class="border-2 border-dashed border-gray-600 rounded-xl p-8 text-center mb-4">
+        <input type="file" id="uploadFiles" multiple class="hidden" onchange="updateFileLabel()">
+        <label for="uploadFiles" class="cursor-pointer">
+          <svg class="w-12 h-12 text-gray-500 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+          </svg>
+          <p class="text-gray-400" id="fileLabel">Click to select files</p>
+        </label>
+      </div>
+      <div class="flex gap-3">
+        <button onclick="closeUploadModal()" class="flex-1 bg-gray-700 hover:bg-gray-600 py-3 rounded-lg font-medium transition">Cancel</button>
+        <button onclick="uploadFiles()" class="flex-1 bg-primary hover:bg-primary/80 py-3 rounded-lg font-medium transition">Upload</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Generate Modal -->
+  <div id="generateModal" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+    <div class="bg-gray-800 rounded-2xl p-6 w-full max-w-md border border-gray-700">
+      <h3 class="text-xl font-bold mb-4">Generate Flashcard Set</h3>
+      <input type="text" id="setTitle" placeholder="Set title" class="w-full bg-gray-700 rounded-lg px-4 py-3 mb-4 focus:outline-none focus:ring-2 focus:ring-primary">
+      <div class="mb-4">
+        <label class="text-sm text-gray-400 mb-2 block">Number of flashcards</label>
+        <input type="number" id="numFlashcards" value="10" min="1" max="50" class="w-full bg-gray-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary">
+      </div>
+      <div class="border-2 border-dashed border-gray-600 rounded-xl p-6 text-center mb-4">
+        <input type="file" id="generateFiles" multiple class="hidden" onchange="updateGenerateLabel()">
+        <label for="generateFiles" class="cursor-pointer">
+          <svg class="w-10 h-10 text-gray-500 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+          <p class="text-gray-400 text-sm" id="generateLabel">Select source files</p>
+        </label>
+      </div>
+      <div class="flex gap-3">
+        <button onclick="closeGenerateModal()" class="flex-1 bg-gray-700 hover:bg-gray-600 py-3 rounded-lg font-medium transition">Cancel</button>
+        <button onclick="generateFlashcards()" id="generateBtn" class="flex-1 bg-primary hover:bg-primary/80 py-3 rounded-lg font-medium transition flex items-center justify-center gap-2">
+          <span>Generate</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Flashcard Viewer Modal -->
+  <div id="viewerModal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+    <div class="bg-gray-800 rounded-2xl w-full max-w-4xl max-h-[90vh] border border-gray-700 flex flex-col">
+      <div class="p-4 border-b border-gray-700 flex items-center justify-between">
+        <h3 class="text-xl font-bold" id="viewerTitle">Flashcard Set</h3>
+        <div class="flex items-center gap-4">
+          <div class="flex bg-gray-700 rounded-lg p-1">
+            <button onclick="setViewMode('card')" id="cardViewBtn" class="px-4 py-1.5 rounded-md text-sm font-medium transition bg-primary">Cards</button>
+            <button onclick="setViewMode('list')" id="listViewBtn" class="px-4 py-1.5 rounded-md text-sm font-medium transition">List</button>
+          </div>
+          <button onclick="closeViewerModal()" class="text-gray-400 hover:text-white">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Card View -->
+      <div id="cardView" class="flex-1 p-8 flex flex-col items-center justify-center">
+        <div class="flip-card w-full max-w-xl h-72 cursor-pointer mb-6" onclick="flipCard()">
+          <div class="flip-card-inner w-full h-full relative">
+            <div class="flip-card-front absolute w-full h-full bg-gradient-to-br from-primary to-secondary rounded-2xl p-8 flex items-center justify-center">
+              <p class="text-2xl font-bold text-center" id="cardFront">Term</p>
+            </div>
+            <div class="flip-card-back absolute w-full h-full bg-gradient-to-br from-secondary to-pink-500 rounded-2xl p-8 flex items-center justify-center">
+              <p class="text-lg text-center" id="cardBack">Definition</p>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center gap-6">
+          <button onclick="prevCard()" class="w-12 h-12 bg-gray-700 hover:bg-gray-600 rounded-full flex items-center justify-center transition">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+          </button>
+          <span class="text-lg font-medium"><span id="currentCard">1</span> / <span id="totalCards">10</span></span>
+          <button onclick="nextCard()" class="w-12 h-12 bg-gray-700 hover:bg-gray-600 rounded-full flex items-center justify-center transition">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- List View -->
+      <div id="listView" class="hidden flex-1 overflow-y-auto p-6">
+        <div id="flashcardList" class="space-y-3"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="hidden fixed bottom-6 right-6 bg-gray-800 border border-gray-700 rounded-xl px-6 py-4 shadow-2xl z-50">
+    <p id="toastMessage" class="text-sm"></p>
+  </div>
+
+  <script>
+    const API_BASE = 'http://localhost:8000';
+    let currentUserId = null;
+    let currentTopicId = null;
+    let currentFlashcards = [];
+    let currentCardIndex = 0;
+    let viewMode = 'card';
+
+    // Toast
+    function showToast(message, isError = false) {
+      const toast = document.getElementById('toast');
+      const toastMessage = document.getElementById('toastMessage');
+      toastMessage.textContent = message;
+      toastMessage.className = `text-sm ${isError ? 'text-red-400' : 'text-green-400'}`;
+      toast.classList.remove('hidden');
+      setTimeout(() => toast.classList.add('hidden'), 3000);
+    }
+
+    // User functions
+    function openUserModal() { document.getElementById('userModal').classList.remove('hidden'); }
+    function closeUserModal() { document.getElementById('userModal').classList.add('hidden'); document.getElementById('newUsername').value = ''; }
+
+    async function createUser() {
+      const username = document.getElementById('newUsername').value.trim();
+      if (!username) return showToast('Please enter a username', true);
+      
+      try {
+        const res = await fetch(`${API_BASE}/users`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username })
+        });
+        const user = await res.json();
+        currentUserId = user.id;
+        document.getElementById('userId').value = user.id;
+        document.getElementById('username').textContent = `@${user.username}`;
+        closeUserModal();
+        loadTopics();
+        showToast(`User "${username}" created!`);
+      } catch (e) { showToast('Failed to create user', true); }
+    }
+
+    async function loadUserById() {
+      const userId = document.getElementById('userId').value.trim();
+      if (!userId) return showToast('Please enter a user ID', true);
+      
+      try {
+        const res = await fetch(`${API_BASE}/users/${userId}`);
+        if (!res.ok) throw new Error('User not found');
+        const user = await res.json();
+        currentUserId = user.id;
+        document.getElementById('userId').value = user.id;
+        document.getElementById('username').textContent = `@${user.username}`;
+        document.getElementById('welcomeScreen').classList.remove('hidden');
+        document.getElementById('topicContent').classList.add('hidden');
+        currentTopicId = null;
+        loadTopics();
+        showToast(`Loaded user "${user.username}"`);
+      } catch (e) { showToast('User not found', true); }
+    }
+
+    // Topic functions
+    function openTopicModal() { 
+      if (!currentUserId) return showToast('Create a user first', true);
+      document.getElementById('topicModal').classList.remove('hidden'); 
+    }
+    function closeTopicModal() { document.getElementById('topicModal').classList.add('hidden'); document.getElementById('newTopicTitle').value = ''; }
+
+    async function createTopic() {
+      const title = document.getElementById('newTopicTitle').value.trim();
+      if (!title) return showToast('Please enter a topic title', true);
+      
+      try {
+        const res = await fetch(`${API_BASE}/users/${currentUserId}/topics`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ title })
+        });
+        await res.json();
+        closeTopicModal();
+        loadTopics();
+        showToast(`Topic "${title}" created!`);
+      } catch (e) { showToast('Failed to create topic', true); }
+    }
+
+    async function loadTopics() {
+      if (!currentUserId) return;
+      const list = document.getElementById('topicsList');
+      list.innerHTML = '<p class="text-gray-500 text-sm text-center py-4">Loading...</p>';
+      
+      try {
+        const res = await fetch(`${API_BASE}/users/${currentUserId}/topics`);
+        const topics = await res.json();
+        
+        if (topics.length === 0) {
+          list.innerHTML = '<p class="text-gray-500 text-sm text-center py-8">No topics yet</p>';
+          return;
+        }
+        
+        list.innerHTML = topics.map(t => `
+          <button onclick="selectTopic('${t.id}', '${t.title.replace(/'/g, "\\'")}')" 
+            class="w-full text-left px-4 py-3 rounded-xl transition ${currentTopicId === t.id ? 'bg-primary/20 border border-primary/50' : 'bg-gray-700/50 hover:bg-gray-700'}"
+            id="topic-${t.id}">
+            <p class="font-medium truncate">${t.title}</p>
+            <p class="text-xs text-gray-400 mt-1">${new Date(t.created_at).toLocaleDateString()}</p>
+          </button>
+        `).join('');
+      } catch (e) { list.innerHTML = '<p class="text-red-400 text-sm text-center py-4">Failed to load topics</p>'; }
+    }
+
+    async function selectTopic(topicId, title) {
+      currentTopicId = topicId;
+      document.getElementById('welcomeScreen').classList.add('hidden');
+      document.getElementById('topicContent').classList.remove('hidden');
+      document.getElementById('topicTitle').textContent = title;
+      
+      document.querySelectorAll('[id^="topic-"]').forEach(el => {
+        el.classList.remove('bg-primary/20', 'border', 'border-primary/50');
+        el.classList.add('bg-gray-700/50', 'hover:bg-gray-700');
+      });
+      const selected = document.getElementById(`topic-${topicId}`);
+      if (selected) {
+        selected.classList.remove('bg-gray-700/50', 'hover:bg-gray-700');
+        selected.classList.add('bg-primary/20', 'border', 'border-primary/50');
+      }
+      
+      await Promise.all([loadTopicDetails(), loadFiles(), loadFlashcardSets()]);
+    }
+
+    async function loadTopicDetails() {
+      try {
+        const res = await fetch(`${API_BASE}/topics/${currentTopicId}`);
+        const topic = await res.json();
+        const section = document.getElementById('systemPromptSection');
+        if (topic.system_prompt) {
+          section.classList.remove('hidden');
+          document.getElementById('systemPromptText').textContent = topic.system_prompt;
+        } else {
+          section.classList.add('hidden');
+        }
+      } catch (e) { console.error('Failed to load topic details'); }
+    }
+
+    // File functions
+    function openUploadModal() { document.getElementById('uploadModal').classList.remove('hidden'); }
+    function closeUploadModal() { document.getElementById('uploadModal').classList.add('hidden'); document.getElementById('uploadFiles').value = ''; document.getElementById('fileLabel').textContent = 'Click to select files'; }
+    function updateFileLabel() {
+      const files = document.getElementById('uploadFiles').files;
+      document.getElementById('fileLabel').textContent = files.length > 0 ? `${files.length} file(s) selected` : 'Click to select files';
+    }
+
+    async function uploadFiles() {
+      const files = document.getElementById('uploadFiles').files;
+      if (files.length === 0) return showToast('Please select files', true);
+      
+      const formData = new FormData();
+      formData.append('user_id', currentUserId);
+      for (const file of files) formData.append('files', file);
+      
+      try {
+        await fetch(`${API_BASE}/topics/${currentTopicId}/upload`, { method: 'POST', body: formData });
+        closeUploadModal();
+        await loadFiles();
+        await loadTopicDetails();
+        showToast('Files uploaded successfully!');
+      } catch (e) { showToast('Failed to upload files', true); }
+    }
+
+    async function loadFiles() {
+      const list = document.getElementById('filesList');
+      try {
+        const res = await fetch(`${API_BASE}/topics/${currentTopicId}/files`);
+        const files = await res.json();
+        
+        if (files.length === 0) {
+          list.innerHTML = '<p class="text-gray-500 text-sm">No files uploaded yet</p>';
+          return;
+        }
+        
+        list.innerHTML = files.map(f => `
+          <div class="bg-gray-700/50 px-3 py-2 rounded-lg flex items-center gap-2">
+            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            <span class="text-sm truncate max-w-[200px]">${f.file_name}</span>
+          </div>
+        `).join('');
+      } catch (e) { list.innerHTML = '<p class="text-red-400 text-sm">Failed to load files</p>'; }
+    }
+
+    // Flashcard functions
+    function openGenerateModal() { document.getElementById('generateModal').classList.remove('hidden'); }
+    function closeGenerateModal() { 
+      document.getElementById('generateModal').classList.add('hidden'); 
+      document.getElementById('setTitle').value = '';
+      document.getElementById('generateFiles').value = '';
+      document.getElementById('generateLabel').textContent = 'Select source files';
+    }
+    function updateGenerateLabel() {
+      const files = document.getElementById('generateFiles').files;
+      document.getElementById('generateLabel').textContent = files.length > 0 ? `${files.length} file(s) selected` : 'Select source files';
+    }
+
+    async function generateFlashcards() {
+      const title = document.getElementById('setTitle').value.trim();
+      const files = document.getElementById('generateFiles').files;
+      const numFlashcards = document.getElementById('numFlashcards').value;
+      
+      if (!title) return showToast('Please enter a title', true);
+      if (files.length === 0) return showToast('Please select files', true);
+      
+      const btn = document.getElementById('generateBtn');
+      btn.innerHTML = '<svg class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg><span>Generating...</span>';
+      btn.disabled = true;
+      
+      const formData = new FormData();
+      formData.append('user_id', currentUserId);
+      formData.append('title', title);
+      formData.append('num_flashcards', numFlashcards);
+      for (const file of files) formData.append('files', file);
+      
+      try {
+        await fetch(`${API_BASE}/topics/${currentTopicId}/generate-flashcards`, { method: 'POST', body: formData });
+        closeGenerateModal();
+        await loadFlashcardSets();
+        await loadTopicDetails();
+        showToast('Flashcards generated!');
+      } catch (e) { showToast('Failed to generate flashcards', true); }
+      finally {
+        btn.innerHTML = '<span>Generate</span>';
+        btn.disabled = false;
+      }
+    }
+
+    async function loadFlashcardSets() {
+      const list = document.getElementById('flashcardSetsList');
+      try {
+        const res = await fetch(`${API_BASE}/topics/${currentTopicId}/flashcard-sets`);
+        const sets = await res.json();
+        
+        if (sets.length === 0) {
+          list.innerHTML = '<p class="text-gray-500 text-sm col-span-full text-center py-8">No flashcard sets yet. Generate some!</p>';
+          return;
+        }
+        
+        list.innerHTML = sets.map(s => `
+          <button onclick="openFlashcardSet('${s.id}', '${s.title.replace(/'/g, "\\'")}')" 
+            class="bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-xl p-5 text-left transition group">
+            <div class="flex items-start justify-between mb-3">
+              <div class="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                </svg>
+              </div>
+              <svg class="w-5 h-5 text-gray-500 group-hover:text-primary transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </div>
+            <h4 class="font-semibold mb-1 truncate">${s.title}</h4>
+            <p class="text-xs text-gray-400">${new Date(s.created_at).toLocaleDateString()}</p>
+          </button>
+        `).join('');
+      } catch (e) { list.innerHTML = '<p class="text-red-400 text-sm col-span-full text-center py-8">Failed to load sets</p>'; }
+    }
+
+    async function openFlashcardSet(setId, title) {
+      document.getElementById('viewerTitle').textContent = title;
+      document.getElementById('viewerModal').classList.remove('hidden');
+      
+      try {
+        const res = await fetch(`${API_BASE}/flashcard-sets/${setId}/flashcards`);
+        currentFlashcards = await res.json();
+        currentCardIndex = 0;
+        
+        if (currentFlashcards.length === 0) {
+          showToast('No flashcards in this set', true);
+          closeViewerModal();
+          return;
+        }
+        
+        document.getElementById('totalCards').textContent = currentFlashcards.length;
+        updateCardDisplay();
+        renderListView();
+      } catch (e) { showToast('Failed to load flashcards', true); closeViewerModal(); }
+    }
+
+    function closeViewerModal() {
+      document.getElementById('viewerModal').classList.add('hidden');
+      document.querySelector('.flip-card').classList.remove('flipped');
+    }
+
+    function updateCardDisplay() {
+      const card = currentFlashcards[currentCardIndex];
+      document.getElementById('cardFront').textContent = card.term;
+      document.getElementById('cardBack').textContent = card.definition;
+      document.getElementById('currentCard').textContent = currentCardIndex + 1;
+      document.querySelector('.flip-card').classList.remove('flipped');
+    }
+
+    function flipCard() { document.querySelector('.flip-card').classList.toggle('flipped'); }
+    function nextCard() { if (currentCardIndex < currentFlashcards.length - 1) { currentCardIndex++; updateCardDisplay(); } }
+    function prevCard() { if (currentCardIndex > 0) { currentCardIndex--; updateCardDisplay(); } }
+
+    function setViewMode(mode) {
+      viewMode = mode;
+      document.getElementById('cardView').classList.toggle('hidden', mode !== 'card');
+      document.getElementById('listView').classList.toggle('hidden', mode !== 'list');
+      document.getElementById('cardViewBtn').classList.toggle('bg-primary', mode === 'card');
+      document.getElementById('listViewBtn').classList.toggle('bg-primary', mode === 'list');
+    }
+
+    function renderListView() {
+      const list = document.getElementById('flashcardList');
+      list.innerHTML = currentFlashcards.map((c, i) => `
+        <div class="bg-gray-700/50 rounded-xl p-4 hover:bg-gray-700 transition">
+          <div class="flex items-start gap-4">
+            <span class="bg-gray-600 w-8 h-8 rounded-lg flex items-center justify-center text-sm font-medium shrink-0">${i + 1}</span>
+            <div class="flex-1 min-w-0">
+              <p class="font-medium text-primary mb-2">${c.term}</p>
+              <p class="text-gray-300 text-sm">${c.definition}</p>
+              ${c.flashcard_type !== 'term_definition' ? `<span class="inline-block mt-2 text-xs bg-gray-600 px-2 py-1 rounded">${c.flashcard_type.replace(/_/g, ' ')}</span>` : ''}
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (document.getElementById('viewerModal').classList.contains('hidden')) return;
+      if (e.key === 'ArrowRight') nextCard();
+      if (e.key === 'ArrowLeft') prevCard();
+      if (e.key === ' ') { e.preventDefault(); flipCard(); }
+      if (e.key === 'Escape') closeViewerModal();
+    });
+  </script>
+</body>
+</html>
