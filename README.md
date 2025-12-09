@@ -6,7 +6,7 @@
 
 ## **Abstract**
 
-The challenge we are trying to solve with our project is that it is difficult to create effective study materials based on class content and human preferences, since traditional word-based methods don’t have a good semantic understanding and flexibility across various different flashcard sets. To address this, we created a pipeline that loads, parses, and preprocesses Quizlet flashcards, classifies them using rule-based heuristics and transformer-based zero-shot learning, and embeds them into a vector database for semantic search. We then use interactive notebooks for incremental updates, managing metadata, and querying natural language. This workflow allows for semantic retrieval, flashcard classification, and retrieval-augmented generation (RAG), which we use to create an adaptable and scalable AI-powered study tool. (wrote this based on the points above, feel free to add to this)
+The challenge we are trying to solve with our project is that it is difficult to create effective study materials based on class content and human preferences, since traditional word-based methods don’t have a good semantic understanding and flexibility across various different flashcard sets. To address this, we created a pipeline that loads, parses, and preprocesses Quizlet flashcards, classifies them using rule-based heuristics and transformer-based zero-shot learning, and embeds them into a vector database for semantic search. We then use interactive notebooks for incremental updates, managing metadata, and querying natural language. This workflow allows for semantic retrieval, flashcard classification, and retrieval-augmented generation (RAG), which we use to create an adaptable and scalable AI-powered study tool.
 
 ## **Overview**
 
