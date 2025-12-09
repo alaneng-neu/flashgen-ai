@@ -12,26 +12,26 @@ from pathlib import Path
 from typing import List
 from sklearn.metrics import accuracy_score, classification_report
 
-sys.path.append(str(Path(__file__).resolve().parents[2]))
+sys.path.append(str(Path(__file__).resolve().parents[1]))
 from quizlet_loader import QuizletLoader
 
 DEFAULT_INDICES: List[int] = [1, 10, 11, 17, 18, 24, 25, 32, 33, 38, 39, 46, 47, 50]
 
 GROUND_TRUTH = {
     1: "term_definition",
-    10: "multiple_choice",
-    11: "multiple_choice",
+    10: "term_definition",
+    11: "fill_in_blank",
     17: "fill_in_blank",
-    18: "fill_in_blank",
-    24: "true_false",
-    25: "true_false",
-    32: "list_stages",
-    33: "list_stages",
-    38: "question_to_answer",
-    39: "question_to_answer",
-    46: "example_to_concept",
-    47: "example_to_concept",
-    50: "term_definition",
+    18: "list_stages",
+    24: "list_stages",
+    25: "question_to_answer",
+    32: "question_to_answer",
+    33: "example_to_concept",
+    38: "example_to_concept",
+    39: "multiple_choice",
+    46: "multiple_choice",
+    47: "true_false",
+    50: "true_false",
 }
 
 def parse_indices(s: str) -> set[int]:
@@ -67,7 +67,7 @@ def main() -> None:
     loader = QuizletLoader(file_path=args.file, file_format="json", **loader_kwargs)
 
     # Create or get shared LLM client (lazy init inside client)
-    from llm import get_shared_zero_shot
+    from llm_classifier import get_shared_zero_shot
     try:
         hf_clf = get_shared_zero_shot(args.model)
     except Exception as e:
@@ -165,7 +165,7 @@ def main() -> None:
             ])
 
     if y_true and y_pred:
-        print("\n--- Ground Truth Evaluation ---")
+        print("\nGround Truth Evaluation")
         print("Accuracy:", accuracy_score(y_true, y_pred))
         print(classification_report(y_true, y_pred))
 

@@ -1,0 +1,105 @@
+Card 1: Overfitting
+  def: A model that performs well on training data but poorly on new data because it memorized patterns instead of generalizing.
+  final_choice: term_definition
+  rule_label: term_definition
+  plain_pred: term_definition
+Card 10: Tokenization
+  def: Breaking text into smaller units (words, subwords, or characters) for NLP processing.
+  final_choice: term_definition
+  rule_label: term_definition
+  plain_pred: term_definition
+Card 11: In supervised learning, each training example comes with a corresponding ________.
+  def: Label
+  final_choice: fill_in_blank
+  rule_label: fill_in_blank
+  plain_pred: term_definition
+Card 17: The difference between predicted and actual values in regression is called the ________.
+  def: Residual
+  final_choice: fill_in_blank
+  rule_label: fill_in_blank
+  plain_pred: term_definition
+Card 18: List the 4 main steps of the machine learning lifecycle.
+  def: Data collection, preprocessing, model training, evaluation/deployment
+  final_choice: list_stages
+  rule_label: list_stages
+  plain_pred: list_stages
+Card 24: What are the main phases of natural language processing?
+  def: Tokenization, feature extraction, modeling, evaluation
+  final_choice: list_stages
+  rule_label: list_stages
+  plain_pred: term_definition
+Card 25: Why is normalization important in machine learning?
+  def: It ensures all features are on similar scales, improving model stability and convergence.
+  final_choice: question_to_answer
+  rule_label: question_to_answer
+  plain_pred: term_definition
+Card 32: How is accuracy misleading in imbalanced datasets?
+  def: It helps hide poor performance on minority classes.
+  final_choice: question_to_answer
+  rule_label: question_to_answer
+  plain_pred: term_definition
+Card 33: Example: A dataset where most emails are "not spam," but the model predicts "not spam" for everything and scores 95% accuracy.
+  def: Imbalanced classification problem
+  final_choice: example_to_concept
+  rule_label: example_to_concept
+  plain_pred: term_definition
+Card 38: Example: Grouping customers based on purchasing behavior without labels.
+  def: Clustering (unsupervised learning)
+  final_choice: example_to_concept
+  rule_label: example_to_concept
+  plain_pred: term_definition
+Card 39: What is the primary purpose of a loss function? A. Store model weights B. Measure how wrong predictions are C. Generate training data D. Split the dataset
+  def: B
+  final_choice: multiple_choice
+  rule_label: multiple_choice
+  plain_pred: term_definition
+Card 46: What does the k in k-NN represent? A. The number of layers B. The number of neighbors to compare C. The number of clusters D. The number of epochs
+  def: B
+  final_choice: multiple_choice
+  rule_label: multiple_choice
+  plain_pred: term_definition
+Card 47: True/False: A larger model always performs better than a smaller model.
+  def: False
+  final_choice: true_false
+  rule_label: true_false
+  plain_pred: true_false
+Card 50: True/False: Reinforcement learning requires labeled datasets.
+  def: False
+  final_choice: true_false
+  rule_label: true_false
+  plain_pred: true_false
+
+Ground Truth Evaluation (of transformers before fallback applied)
+Accuracy: 0.35714285714285715
+                    precision    recall  f1-score   support
+
+example_to_concept       0.00      0.00      0.00         2
+     fill_in_blank       0.00      0.00      0.00         2
+       list_stages       1.00      0.50      0.67         2
+   multiple_choice       0.00      0.00      0.00         2
+question_to_answer       0.00      0.00      0.00         2
+   term_definition       0.18      1.00      0.31         2
+        true_false       1.00      1.00      1.00         2
+
+          accuracy                           0.36        14
+         macro avg       0.31      0.36      0.28        14
+      weighted avg       0.31      0.36      0.28        14
+
+
+Classification Metrics Table:
+Card Index  Ground Truth    Rule Label      Transformer Prediction   Final Choice    Correct?
+------------------------------------------------------------------------------------------
+1           term_definition term_definition term_definition          term_definition Yes
+10          term_definition term_definition term_definition          term_definition Yes
+11          fill_in_blank   fill_in_blank   term_definition          fill_in_blank   No, but final choice is correct
+17          fill_in_blank   fill_in_blank   term_definition          fill_in_blank   No, but final choice is correct
+18          list_stages     list_stages     list_stages              list_stages     Yes
+24          list_stages     list_stages     term_definition          list_stages     No, but final choice is correct
+25          question_to_answer question_to_answer term_definition          question_to_answer No, but final choice is correct
+32          question_to_answer question_to_answer term_definition          question_to_answer No, but final choice is correct
+33          example_to_concept example_to_concept term_definition          example_to_concept No, but final choice is correct
+38          example_to_concept example_to_concept term_definition          example_to_concept No, but final choice is correct
+39          multiple_choice multiple_choice term_definition          multiple_choice No, but final choice is correct
+46          multiple_choice multiple_choice term_definition          multiple_choice No, but final choice is correct
+47          true_false      true_false      true_false               true_false      Yes
+50          true_false      true_false      true_false               true_false      Yes
